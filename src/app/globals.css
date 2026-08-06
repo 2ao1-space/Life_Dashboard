@@ -1,0 +1,250 @@
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-page: #f5f4f0;
+  --bg-card: #ffffff;
+  --bg-raised: #fafaf8;
+  --bg-input: #f0efeb;
+  --bg-muted: #e5e4e0;
+
+  --accent: #2563eb;
+  --accent-light: #eff6ff;
+  --accent-green: #16a34a;
+  --accent-green-bg: #f0fdf4;
+  --accent-red: #dc2626;
+  --accent-red-bg: #fef2f2;
+  --accent-amber: #d97706;
+  --accent-amber-bg: #fffbeb;
+
+  --text-1: #1a1a1a;
+  --text-2: #4a4a4a;
+  --text-3: #9a9a9a;
+
+  --border: rgba(0, 0, 0, 0.07);
+  --border-focus: #2563eb;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.07);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+}
+
+.dark {
+  --bg-page: #141414;
+  --bg-card: #1e1e1e;
+  --bg-raised: #252525;
+  --bg-input: #2c2c2c;
+  --bg-muted: #333333;
+
+  --accent: #3b82f6;
+  --accent-light: #1d3557;
+  --accent-green: #22c55e;
+  --accent-green-bg: #052e16;
+  --accent-red: #f87171;
+  --accent-red-bg: #2d1515;
+  --accent-amber: #fbbf24;
+  --accent-amber-bg: #2d1f00;
+
+  --text-1: #f0f0f0;
+  --text-2: #a0a0a0;
+  --text-3: #606060;
+
+  --border: rgba(255, 255, 255, 0.07);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: "Cairo", sans-serif;
+  background: var(--bg-page);
+  color: var(--text-1);
+  direction: rtl;
+  -webkit-font-smoothing: antialiased;
+  transition:
+    background 0.25s,
+    color 0.25s;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-muted);
+  border-radius: 99px;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.input {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 11px 13px;
+  color: var(--text-1);
+  font-family: inherit;
+  font-size: 15px;
+  outline: none;
+  direction: rtl;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.input::placeholder {
+  color: var(--text-3);
+}
+.input:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.15s;
+  padding: 10px 16px;
+}
+.btn:active {
+  transform: scale(0.96);
+}
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+.btn-primary:hover {
+  opacity: 0.88;
+}
+.btn-ghost {
+  background: var(--bg-input);
+  color: var(--text-2);
+}
+.btn-ghost:hover {
+  background: var(--bg-muted);
+}
+.btn-danger {
+  background: var(--accent-red-bg);
+  color: var(--accent-red);
+}
+.btn-green {
+  background: var(--accent-green-bg);
+  color: var(--accent-green);
+}
+.btn-salary {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+.btn-full {
+  width: 100%;
+}
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.tab-bar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: color-mix(in srgb, var(--bg-card) 92%, transparent);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(14px);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.animate-slide-up {
+  animation: slideUp 0.28s ease forwards;
+}
+.animate-fade-in {
+  animation: fadeIn 0.22s ease forwards;
+}
+
+.sync-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.sync-dot.synced {
+  background: var(--accent-green);
+}
+.sync-dot.syncing {
+  background: var(--accent-amber);
+  animation: pulse 1s infinite;
+}
+.sync-dot.offline {
+  background: var(--text-3);
+}
+.sync-dot.error {
+  background: var(--accent-red);
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
