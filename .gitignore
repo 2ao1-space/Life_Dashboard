@@ -1,0 +1,23 @@
+.next
+node_modules
+
+.next
+node_modules
+package-lock.json
+dist
+coverage
+.DS_Store
+.env
+.idea
+.vscode
+*.log
+*.tsbuildinfo
+# Ignore build output
+build
+# Ignore test coverage reports
+coverage
+# Ignore environment variable files
+.env*
+# Ignore IDE and editor files
+.env.local
+.env.development.local
