@@ -8,7 +8,11 @@ import { useSettings } from "@/hooks/useSettings";
 import { MODULE_META } from "@/lib/constants/modules";
 import Modal from "./Modal";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import type { ModuleKey } from "@/lib/types/settings";
+=======
+import type { ModuleKey } from "@/types/settings";
+>>>>>>> 505641304511fe3396d8aaf1b454d17f337ab6ab
 =======
 import type { ModuleKey } from "@/types/settings";
 >>>>>>> 505641304511fe3396d8aaf1b454d17f337ab6ab
