@@ -1,6 +1,28 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-app-bg: var(--bg);
+  --color-app-surface: var(--surface);
+  --color-app-surface-2: var(--surface-2);
+  --color-app-primary: var(--primary);
+  --color-app-primary-soft: var(--primary-soft);
+  --color-app-primary-soft-text: var(--primary-soft-text);
+  --color-app-text: var(--text);
+  --color-app-text-2: var(--text-2);
+  --color-app-border: var(--border);
+  --color-app-danger: var(--danger);
+  --color-app-danger-soft: var(--danger-soft);
+  --color-app-gold: var(--gold);
+  --color-app-gold-soft: var(--gold-soft);
+
+  --radius-card-lg: 20px;
+  --radius-card-md: 14px;
+  --radius-card-sm: 10px;
+
+  --shadow-card: var(--shadow);
+
+  --font-cairo: var(--font-cairo), sans-serif;
+}
 
 :root {
   --bg: #fafaf8;
