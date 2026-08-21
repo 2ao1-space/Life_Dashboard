@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cairo } from "next/font/google";
 import Providers from "./providers";
+import AppNav from "@/components/shared/Navbar";
 import "./globals.css";
 
 const cairo = Cairo({
@@ -28,7 +29,10 @@ export default function RootLayout({
       className={cairo.variable}
     >
       <body className="font-cairo">
-        <Providers>{children}</Providers>
+        <Providers>
+          <div className="pb-24 lg:pb-0 lg:pr-56">{children}</div>
+          <AppNav />
+        </Providers>
       </body>
     </html>
   );
