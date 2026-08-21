@@ -6,7 +6,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { getCurrentUserId } from "@/lib/supabase/auth";
 import { profileRepository } from "@/lib/repositories/profileRepository";
 
-import type { ProfileEntity } from "@/types/settings";
+import type { ProfileEntity } from "@/lib/types/settings";
 
 type ProfileInput = Omit<
   ProfileEntity,

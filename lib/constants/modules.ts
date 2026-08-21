@@ -1,4 +1,4 @@
-import type { ModuleKey } from "@/types/settings";
+import type { ModuleKey } from "@/lib/types/settings";
 
 export const MODULE_META: Record<ModuleKey, { label: string; icon: string }> = {
   finance: { label: "الماليات", icon: "💰" },

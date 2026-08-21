@@ -7,7 +7,7 @@ import ConfirmModal from "@/components/shared/ConfirmModal";
 import Modal from "@/components/shared/Modal";
 import Field from "@/components/shared/Field";
 import Button from "@/components/shared/Button";
-import type { AccountEntity } from "@/types/settings";
+import type { AccountEntity } from "@/lib/types/settings";
 
 const ICON_OPTIONS = ["💵", "🏦", "📱", "💳", "🏧"];
 

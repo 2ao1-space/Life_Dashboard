@@ -2,7 +2,7 @@
 
 import { useSettings } from "@/hooks/useSettings";
 import Switch from "@/components/shared/Switch";
-import type { SettingsEntity } from "@/types/settings";
+import type { SettingsEntity } from "@/lib/types/settings";
 
 type FeatureKey =
   | "nawafil_enabled"

@@ -6,7 +6,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 
 import { getCurrentUserId } from "@/lib/supabase/auth";
 
-import { DEFAULT_SETTINGS, type SettingsEntity } from "@/types/settings";
+import { DEFAULT_SETTINGS, type SettingsEntity } from "@/lib/types/settings";
 
 import { settingsRepository } from "@/lib/repositories/settingsRepository";
 

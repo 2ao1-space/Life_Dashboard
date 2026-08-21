@@ -18,7 +18,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
 import { MODULE_META } from "@/lib/constants/modules";
-import type { ModuleKey } from "@/types/settings";
+import type { ModuleKey } from "@/lib/types/settings";
 
 interface ModuleOrderListProps {
   order: ModuleKey[];

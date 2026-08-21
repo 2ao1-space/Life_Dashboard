@@ -1,7 +1,7 @@
 "use client";
 
 import { MODULE_META, ALL_MODULE_KEYS } from "@/lib/constants/modules";
-import type { ModuleKey } from "@/types/settings";
+import type { ModuleKey } from "@/lib/types/settings";
 
 interface ModuleGridProps {
   selected: ModuleKey[];

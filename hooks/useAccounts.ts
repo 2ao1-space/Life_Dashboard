@@ -8,7 +8,7 @@ import { getCurrentUserId } from "@/lib/supabase/auth";
 
 import { accountsRepository } from "@/lib/repositories/accountsRepository";
 
-import type { AccountEntity } from "@/types/settings";
+import type { AccountEntity } from "@/lib/types/settings";
 
 export function useAccounts() {
   const [userId, setUserId] = useState<string | null>(null);

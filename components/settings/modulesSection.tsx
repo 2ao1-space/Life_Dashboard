@@ -3,7 +3,7 @@
 import { useSettings } from "@/hooks/useSettings";
 import ModuleGrid from "./moduleGrid";
 import ModuleOrderList from "./moduleOrderList";
-import type { ModuleKey } from "@/types/settings";
+import type { ModuleKey } from "@/lib/types/settings";
 
 export default function ModulesSection() {
   const { settings, update } = useSettings();
