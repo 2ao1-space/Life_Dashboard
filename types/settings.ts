@@ -24,6 +24,7 @@ export interface SettingsEntity extends BaseEntity {
   qiyam_enabled: boolean;
   debts_enabled: boolean;
   zakat_enabled: boolean;
+  onboarding_completed: boolean;
 }
 
 export interface AccountEntity extends BaseEntity {
@@ -43,4 +44,5 @@ export const DEFAULT_SETTINGS: Omit<
   qiyam_enabled: false,
   debts_enabled: false,
   zakat_enabled: false,
+  onboarding_completed: false,
 };

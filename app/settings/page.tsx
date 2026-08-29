@@ -1,5 +1,6 @@
 import ThemeToggle from "@/components/shared/Themetoggle";
 import ProfileSection from "@/components/settings/profileSection";
+import GoogleSyncSection from "@/components/settings/googleSyncSection";
 import OptionalFeaturesSection from "@/components/settings/optionalFeaturesSection";
 import ModulesSection from "@/components/settings/modulesSection";
 import AccountsSection from "@/components/settings/accountsSection";
@@ -14,6 +15,7 @@ export default function SettingsPage() {
       </div>
 
       <ProfileSection />
+      <GoogleSyncSection />
 
       <section>
         <h2 className="mb-2 text-xs font-bold text-app-text-2">
