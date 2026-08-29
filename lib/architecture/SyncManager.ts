@@ -14,11 +14,20 @@ class SyncManagerClass {
   async syncAll(): Promise<void> {
     if (typeof navigator !== "undefined" && !navigator.onLine) return;
 
-    for (const repo of this.repositories) {
+    for (const [index, repo] of this.repositories.entries()) {
       try {
         await repo.syncPending();
       } catch (error) {
-        console.error("[SyncManager] sync failed for a repository:", error);
+        const details =
+          error instanceof Error
+            ? { message: error.message, stack: error.stack }
+            : JSON.parse(
+                JSON.stringify(error, Object.getOwnPropertyNames(error ?? {})),
+              );
+        console.error(
+          `[SyncManager] sync failed for repository #${index}:`,
+          details,
+        );
       }
     }
   }

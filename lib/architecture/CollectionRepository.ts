@@ -11,9 +11,10 @@ export class CollectionRepository<T extends BaseEntity> implements Syncable {
   constructor(
     table: Table<T, string>,
     private tableName: string,
+    customCloud?: CloudAdapter<T>,
   ) {
     this.local = new LocalStorageAdapter<T>(table);
-    this.cloud = new CloudAdapter<T>(tableName);
+    this.cloud = customCloud ?? new CloudAdapter<T>(tableName);
     SyncManager.register(this);
   }
 
@@ -32,6 +33,30 @@ export class CollectionRepository<T extends BaseEntity> implements Syncable {
     const entity = {
       ...data,
       id: crypto.randomUUID(),
+      user_id: userId,
+      updated_at: new Date().toISOString(),
+      sync_status: "pending",
+    } as T;
+
+    await this.local.put(entity);
+    SyncManager.syncAll();
+    return entity;
+  }
+
+  async getOrCreateWithId(
+    id: string,
+    userId: string,
+    defaults: Omit<
+      T,
+      "id" | "user_id" | "updated_at" | "sync_status" | "deleted"
+    >,
+  ): Promise<T> {
+    const existing = await this.local.getById(id);
+    if (existing) return existing;
+
+    const entity = {
+      ...defaults,
+      id,
       user_id: userId,
       updated_at: new Date().toISOString(),
       sync_status: "pending",

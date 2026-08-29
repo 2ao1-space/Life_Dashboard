@@ -5,7 +5,12 @@ export class CloudAdapter<T extends BaseEntity> {
   constructor(private tableName: string) {}
 
   async upsert(entity: T): Promise<void> {
-    const { sync_status: _sync_status, deleted: _deleted, ...payload } = entity;
+    const payload: Record<string, unknown> = { ...entity } as unknown as Record<
+      string,
+      unknown
+    >;
+    delete payload.sync_status;
+    delete payload.deleted;
     const { error } = await supabase
       .from(this.tableName)
       .upsert(payload as never);
