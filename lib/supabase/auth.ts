@@ -39,3 +39,11 @@ export async function linkGoogleAccount() {
   });
   if (error) throw error;
 }
+
+export async function checkGoogleLinked(): Promise<boolean> {
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data.user) return false;
+  return Boolean(
+    data.user.identities?.some((identity) => identity.provider === "google"),
+  );
+}
