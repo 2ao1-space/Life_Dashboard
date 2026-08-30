@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cairo } from "next/font/google";
 import Providers from "./providers";
 import AppNav from "@/components/shared/Navbar";
+import OnboardingGate from "@/components/shared/onboardingGate";
 import "./globals.css";
 
 const cairo = Cairo({
@@ -30,8 +31,10 @@ export default function RootLayout({
     >
       <body className="font-cairo">
         <Providers>
-          <div className="pb-24 lg:pb-0 lg:pr-56">{children}</div>
-          <AppNav />
+          <OnboardingGate>
+            <div className="pb-24 lg:pb-0 lg:pr-56">{children}</div>
+            <AppNav />
+          </OnboardingGate>
         </Providers>
       </body>
     </html>
