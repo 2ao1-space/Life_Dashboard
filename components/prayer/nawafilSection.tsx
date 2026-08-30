@@ -13,18 +13,18 @@ type NafilaKey =
   | "isha_badiyah";
 
 const GROUPS: { fard: string; items: { key: NafilaKey; label: string }[] }[] = [
-  { fard: "الفجر", items: [{ key: "fajr_qabliyah", label: "قبلية (٢)" }] },
+  { fard: "الفجر", items: [{ key: "fajr_qabliyah", label: "قبل (٢)" }] },
   {
     fard: "الظهر",
     items: [
-      { key: "dhuhr_qabliyah_1", label: "قبلية (٢)" },
-      { key: "dhuhr_qabliyah_2", label: "قبلية (٢)" },
-      { key: "dhuhr_badiyah", label: "بعدية (٢)" },
+      { key: "dhuhr_qabliyah_1", label: "قبل (٢)" },
+      { key: "dhuhr_qabliyah_2", label: "قبل (٢)" },
+      { key: "dhuhr_badiyah", label: "بعد (٢)" },
     ],
   },
   { fard: "العصر", items: [{ key: "asr_nafilah", label: "نافلة حرة (٢)" }] },
-  { fard: "المغرب", items: [{ key: "maghrib_badiyah", label: "بعدية (٢)" }] },
-  { fard: "العشاء", items: [{ key: "isha_badiyah", label: "بعدية (٢)" }] },
+  { fard: "المغرب", items: [{ key: "maghrib_badiyah", label: "بعد (٢)" }] },
+  { fard: "العشاء", items: [{ key: "isha_badiyah", label: "بعد (٢)" }] },
 ];
 
 export default function NawafilSection({ date }: { date?: Date }) {
