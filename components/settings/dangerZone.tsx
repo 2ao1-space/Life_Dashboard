@@ -12,15 +12,12 @@ export default function DangerZone() {
 
   const handleConfirm = async () => {
     setIsDeleting(true);
-    await db.transaction(
-      "rw",
-      [db.profile, db.settings, db.accounts],
-      async () => {
-        await db.profile.clear();
-        await db.settings.clear();
-        await db.accounts.clear();
-      },
-    );
+    await db.transaction("rw", db.tables, async () => {
+      for (const table of db.tables) {
+        if (table.name === "_meta") continue;
+        await table.clear();
+      }
+    });
     setIsDeleting(false);
     setIsOpen(false);
     window.location.reload();
