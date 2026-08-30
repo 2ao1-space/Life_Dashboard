@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabase/client";
 import { CloudAdapter } from "@/lib/architecture/CloudAdapter";
 import type { TransactionEntity } from "@/types/finance";
-
+//
 export class TransactionCloudAdapter extends CloudAdapter<TransactionEntity> {
   constructor() {
     super("transactions");
