@@ -10,17 +10,13 @@ export default function AdhkarPage() {
   const [tab, setTab] = useState<DhikrCategory>("morning");
 
   return (
-    <main className="mx-auto max-w-md space-y-5 px-4 pb-28 pt-5">
-      <h1 className="text-lg font-extrabold text-app-text">الأذكار والقرآن</h1>
-
-      <div className="flex gap-2">
+    <main className="mx-auto max-w-md space-y-6 px-4 pb-28 pt-5">
+      <div className="flex rounded-card-md bg-app-surface-2 p-1">
         <button
           type="button"
           onClick={() => setTab("morning")}
-          className={`flex-1 rounded-card-sm py-2 text-xs font-bold ${
-            tab === "morning"
-              ? "bg-app-primary text-white"
-              : "bg-app-surface-2 text-app-text-2"
+          className={`flex-1 rounded-card-sm py-2.5 text-xs font-bold transition-colors ${
+            tab === "morning" ? "bg-app-primary text-white" : "text-app-text-2"
           }`}
         >
           أذكار الصباح
@@ -28,10 +24,8 @@ export default function AdhkarPage() {
         <button
           type="button"
           onClick={() => setTab("evening")}
-          className={`flex-1 rounded-card-sm py-2 text-xs font-bold ${
-            tab === "evening"
-              ? "bg-app-primary text-white"
-              : "bg-app-surface-2 text-app-text-2"
+          className={`flex-1 rounded-card-sm py-2.5 text-xs font-bold transition-colors ${
+            tab === "evening" ? "bg-app-primary text-white" : "text-app-text-2"
           }`}
         >
           أذكار المساء
@@ -41,14 +35,14 @@ export default function AdhkarPage() {
       <DhikrList category={tab} />
 
       <section>
-        <h2 className="mb-2 text-xs font-bold text-app-text-2">
+        <h2 className="mb-2 text-sm font-extrabold text-app-text">
           الأدعية الشخصية
         </h2>
         <DuasSection />
       </section>
 
       <section>
-        <h2 className="mb-2 text-xs font-bold text-app-text-2">القرآن</h2>
+        <h2 className="mb-2 text-sm font-extrabold text-app-text">القرآن</h2>
         <QuranTracker />
       </section>
     </main>

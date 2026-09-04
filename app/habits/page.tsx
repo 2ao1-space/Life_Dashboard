@@ -10,8 +10,6 @@ export default function HabitsPage() {
 
   return (
     <main className="mx-auto max-w-md space-y-5 px-4 pb-28 pt-5">
-      <h1 className="text-lg font-extrabold text-app-text">العادات</h1>
-
       <section>
         <h2 className="mb-2 text-xs font-bold text-app-text-2">مهام اليوم</h2>
         <TasksSection />

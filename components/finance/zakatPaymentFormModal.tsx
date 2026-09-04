@@ -4,6 +4,7 @@ import { useState } from "react";
 import Modal from "@/components/shared/Modal";
 import Field from "@/components/shared/Field";
 import Button from "@/components/shared/Button";
+import AppIcon from "@/components/shared/AppIcon";
 import { useZakat } from "@/hooks/useZakat";
 import { useAccounts } from "@/hooks/useAccounts";
 import type { ZakatPaymentEntity } from "@/types/debtsZakat";
@@ -103,8 +104,13 @@ export default function ZakatPaymentFormModal({
         placeholder="مثال: زكاة راتب أغسطس"
       />
       <p className="mb-4 text-[11px] text-app-text-2">
-        📷 رفع صورة الإثبات هنضيفها في خطوة لاحقة — محتاجة إعداد Supabase
-        Storage bucket الأول
+        <AppIcon
+          name="upload"
+          size={14}
+          className="inline-block align-text-bottom"
+        />{" "}
+        رفع صورة الإثبات هنضيفها في خطوة لاحقة — محتاجة إعداد Supabase Storage
+        bucket الأول
       </p>
       <Button onClick={handleSave} disabled={!isValid} isLoading={isSaving}>
         حفظ

@@ -31,7 +31,7 @@ export default function AccountDetailModal({
       >
         {transactions.length === 0 ? (
           <EmptyState
-            icon="💳"
+            icon="account-card"
             title="مفيش معاملات لسه"
             description="أي معاملة تضيفها على الحساب ده هتظهر هنا"
           />

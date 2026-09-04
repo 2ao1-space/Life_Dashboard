@@ -21,21 +21,16 @@ export default function FinancePage() {
   };
 
   return (
-    <main className="mx-auto max-w-md space-y-5 px-4 pb-28 pt-5">
-      <h1 className="text-lg font-extrabold text-app-text">الماليات</h1>
-
+    <main className="mx-auto max-w-lg space-y-6 px-4 pb-28 pt-5">
       <TotalCard />
 
       <section>
-        <h2 className="mb-2 text-xs font-bold text-app-text-2">
-          الحسابات{" "}
-          <span className="font-normal">— اضغط على أي حساب لتفاصيله</span>
-        </h2>
+        <h2 className="mb-2 text-sm font-extrabold text-app-text">الحسابات</h2>
         <AccountsScroll />
       </section>
 
       <section>
-        <h2 className="mb-2 text-xs font-bold text-app-text-2">
+        <h2 className="mb-2 text-sm font-extrabold text-app-text">
           معاملات اليوم
         </h2>
         <TodayTransactionsList />
@@ -43,7 +38,7 @@ export default function FinancePage() {
 
       {settings?.debts_enabled && (
         <section>
-          <h2 className="mb-2 text-xs font-bold text-app-text-2">
+          <h2 className="mb-2 text-sm font-extrabold text-app-text">
             الديون والسلف
           </h2>
           <DebtsSection />
@@ -52,7 +47,7 @@ export default function FinancePage() {
 
       {settings?.zakat_enabled && (
         <section>
-          <h2 className="mb-2 text-xs font-bold text-app-text-2">الزكاة</h2>
+          <h2 className="mb-2 text-sm font-extrabold text-app-text">الزكاة</h2>
           <ZakatSection />
         </section>
       )}

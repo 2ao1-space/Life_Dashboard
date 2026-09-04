@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { useDocuments } from "@/hooks/useDocuments";
+import AppIcon from "@/components/shared/AppIcon";
 
 export default function UploadButton() {
   const { addDocument } = useDocuments();
@@ -35,9 +36,9 @@ export default function UploadButton() {
       <button
         type="button"
         onClick={() => fileInputRef.current?.click()}
-        className="fixed bottom-24 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full bg-app-primary px-6 py-3.5 text-sm font-bold text-white shadow-[0_8px_20px_rgba(47,111,94,0.35)]"
+        className="fixed bottom-24 left-1/2 z-20 flex max-w-[calc(100vw-2rem)] -translate-x-1/2 items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap rounded-full bg-app-primary px-6 py-3.5 text-sm font-bold text-white shadow-[0_8px_20px_rgba(47,111,94,0.35)]"
       >
-        📷 رفع وثيقة
+        <AppIcon name="upload" size={17} /> رفع وثيقة
       </button>
     </>
   );

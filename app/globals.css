@@ -79,3 +79,32 @@ body {
     background 0.25s ease,
     color 0.25s ease;
 }
+
+.onboarding-shell {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.onboarding-reveal {
+  animation: onboarding-reveal 0.55s ease-out both;
+}
+
+@keyframes onboarding-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .onboarding-reveal {
+    animation: none;
+  }
+}

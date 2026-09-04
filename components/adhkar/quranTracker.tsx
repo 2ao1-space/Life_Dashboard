@@ -11,33 +11,38 @@ export default function QuranTracker() {
   if (!log) return null;
 
   return (
-    <div className="space-y-3">
-      <div className="rounded-card-lg bg-app-primary p-4 text-white shadow-card">
-        <div className="mb-1 flex items-center justify-between text-xs opacity-90">
-          <span>
-            قرأت {progress.totalPagesRead.toLocaleString("ar-EG")} صفحة
-          </span>
-          <span>باقي {progress.remaining.toLocaleString("ar-EG")}</span>
+    <div className="overflow-hidden rounded-card-lg border border-app-border bg-app-surface shadow-card">
+      <div className="bg-app-primary p-4 text-white">
+        <div className="flex items-end justify-between gap-3">
+          <div>
+            <p className="text-xs text-white/70">إجمالي قراءتك</p>
+            <p className="mt-1 text-2xl font-extrabold">
+              {progress.totalPagesRead.toLocaleString("ar-EG")}{" "}
+              <span className="text-sm font-semibold">صفحة</span>
+            </p>
+          </div>
+          <p className="text-xs text-white/75">{progress.percentage}%</p>
         </div>
-        <div className="h-2 overflow-hidden rounded-full bg-white/20">
+        <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/20">
           <div
             className="h-full rounded-full bg-white"
-            style={{ width: `${progress.percentage}%` }}
+            style={{ width: `${Math.min(progress.percentage, 100)}%` }}
           />
         </div>
-        <div className="mt-1.5 text-[11px] opacity-80">
+        <div className="mt-2 text-[11px] text-white/70">
           {progress.percentage}% من {TOTAL_QURAN_PAGES.toLocaleString("ar-EG")}{" "}
           صفحة
         </div>
       </div>
 
-      <div className="rounded-card-lg border border-app-border bg-app-surface p-4 shadow-card">
-        <p className="mb-3 text-center text-xs font-semibold text-app-text-2">
-          قراءة النهاردة
-        </p>
+      <div className="p-4">
+        <div className="mb-3 flex items-center justify-between">
+          <p className="text-sm font-extrabold text-app-text">قراءة النهاردة</p>
+          <p className="text-[11px] text-app-text-2">سجّل إنجازك</p>
+        </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          <div className="flex flex-col items-center gap-2">
+        <div className="grid grid-cols-2 divide-x divide-x-reverse divide-app-border">
+          <div className="pl-3">
             <span className="text-[11px] text-app-text-2">صفحات</span>
             <div className="flex items-center gap-3">
               <button
@@ -49,7 +54,7 @@ export default function QuranTracker() {
               >
                 −
               </button>
-              <span className="min-w-[28px] text-center text-lg font-extrabold text-app-primary">
+              <span className="min-w-7 text-center text-lg font-extrabold text-app-primary">
                 {(log.pages_read ?? 0).toLocaleString("ar-EG")}
               </span>
               <button
@@ -64,7 +69,7 @@ export default function QuranTracker() {
             </div>
           </div>
 
-          <div className="flex flex-col items-center gap-2">
+          <div className="pr-3">
             <span className="text-[11px] text-app-text-2">أرباع</span>
             <div className="flex items-center gap-3">
               <button
@@ -78,7 +83,7 @@ export default function QuranTracker() {
               >
                 −
               </button>
-              <span className="min-w-[28px] text-center text-lg font-extrabold text-app-primary">
+              <span className="min-w-7 text-center text-lg font-extrabold text-app-primary">
                 {(log.quarters_read ?? 0).toLocaleString("ar-EG")}
               </span>
               <button
@@ -96,10 +101,8 @@ export default function QuranTracker() {
       </div>
 
       {history.length > 1 && (
-        <div className="rounded-card-lg border border-app-border bg-app-surface px-4 shadow-card">
-          <p className="py-2.5 text-xs font-bold text-app-text-2">
-            سجل القراءة
-          </p>
+        <div className="border-t border-app-border px-4">
+          <p className="py-3 text-xs font-bold text-app-text-2">سجل القراءة</p>
           {history.map((h) => (
             <div
               key={h.id}

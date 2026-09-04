@@ -1,13 +1,13 @@
 import type { ModuleKey } from "@/types/settings";
 
 export const MODULE_META: Record<ModuleKey, { label: string; icon: string }> = {
-  finance: { label: "الماليات", icon: "💰" },
-  prayer: { label: "الصلاة", icon: "🕌" },
-  adhkar: { label: "الأذكار والقرآن", icon: "📿" },
-  habits: { label: "العادات", icon: "✅" },
-  notes: { label: "الملاحظات", icon: "📝" },
-  documents: { label: "الوثائق", icon: "📁" },
-  analytics: { label: "التحليلات", icon: "📊" },
+  finance: { label: "الماليات", icon: "finance" },
+  prayer: { label: "الصلاة", icon: "prayer" },
+  adhkar: { label: "الأذكار والقرآن", icon: "adhkar" },
+  habits: { label: "العادات", icon: "habits" },
+  notes: { label: "الملاحظات", icon: "notes" },
+  documents: { label: "الوثائق", icon: "documents" },
+  analytics: { label: "التحليلات", icon: "analytics" },
 };
 
 export const ALL_MODULE_KEYS: ModuleKey[] = [

@@ -38,17 +38,19 @@ export default function Modal({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 backdrop-blur-[2px] sm:items-center"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-[2px]"
       onClick={onClose}
     >
       <div
-        className={`w-full ${sizeClass} max-h-[85vh] overflow-y-auto rounded-t-card-lg bg-app-surface p-5 shadow-card sm:rounded-card-lg`}
+        className={`w-full ${sizeClass} max-h-[85vh] overflow-y-auto rounded-card-lg bg-app-surface p-5 shadow-card`}
         onClick={(e) => e.stopPropagation()}
         dir="rtl"
       >
         {title && (
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-base font-bold text-app-text">{title}</h2>
+          <div className="mb-4 flex min-w-0 items-center justify-between gap-3">
+            <h2 className="min-w-0 truncate text-base font-bold text-app-text">
+              {title}
+            </h2>
             <button
               onClick={onClose}
               aria-label="إغلاق"

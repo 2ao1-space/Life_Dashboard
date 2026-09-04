@@ -1,50 +1,62 @@
 "use client";
 
-const HIGHLIGHTS = [
+const PRINCIPLES = [
   {
-    icon: "📡",
-    title: "بيشتغل من غير نت",
-    desc: "أي حاجة تعملها بتتسجل فورًا، حتى من غير إنترنت، وتتزامن لوحدها لما النت يرجع.",
+    title: "خد يومك واحدة واحدة",
+    desc: "تابع صلاتك وعاداتك ومهامك من غير ما تحس إنك داخل على جدول معقد.",
   },
   {
-    icon: "🎛️",
-    title: "أنت اللي بتحدد",
-    desc: "النوافل، القيام، الديون والسلف، الزكاة — كل حاجة اختيارية، تفعّلها من الإعدادات وقت ما تحتاجها.",
+    title: "كل شيء في مكانه",
+    desc: "من ملاحظاتك لفلوسك، حاجاتك المهمة تفضل قريبة وسهلة الوصول.",
   },
   {
-    icon: "👆",
-    title: "دوس على أي كارت",
-    desc: "أي حساب أو نوت أو يوم في الكالندر، دوس عليه تفاصيله بتفتح كاملة.",
-  },
-  {
-    icon: "👉",
-    title: "اسحب بين الصفحات",
-    desc: "حرّك بإصبعك يمين وشمال في أي وقت تتنقل بين الصفحات بسرعة.",
+    title: "على طريقتك أنت",
+    desc: "اختار اللي تحتاجه دلوقتي، وسيب الباقي لوقت ما يبقى مناسب ليك.",
   },
 ];
 
 export default function WelcomeStep({ onNext }: { onNext: () => void }) {
   return (
-    <div className="flex min-h-screen flex-col justify-between px-5 pb-8 pt-12">
+    <main className="onboarding-shell flex min-h-screen flex-col justify-between px-5 pb-8 pt-7">
       <div>
-        <h1 className="mb-1 text-xl font-extrabold text-app-text">
-          أهلًا بيك في حياتي 👋
-        </h1>
-        <p className="mb-8 text-sm text-app-text-2">
-          قبل ما نبدأ، ٤ حاجات سريعة تفهمك الدنيا:
-        </p>
+        <div className="mb-10 flex items-center justify-between">
+          <span className="text-xs font-bold text-app-primary">حياتي</span>
+          <div
+            className="flex items-center gap-2"
+            aria-label="الخطوة الأولى من خطوتين"
+          >
+            <span className="h-1.5 w-10 rounded-full bg-app-primary" />
+            <span className="h-1.5 w-10 rounded-full bg-app-border" />
+            <span className="mr-1 text-[11px] text-app-text-2">١ / ٢</span>
+          </div>
+        </div>
 
-        <div className="space-y-4">
-          {HIGHLIGHTS.map((h) => (
+        <div className="onboarding-reveal mb-8">
+          <p className="mb-3 text-sm font-semibold text-app-primary">
+            أهلًا بيك
+          </p>
+          <h1 className="max-w-sm text-3xl font-extrabold leading-tight text-app-text">
+            حياتك، بشكل أبسط
+          </h1>
+          <p className="mt-3 max-w-sm text-sm leading-7 text-app-text-2">
+            حياتي معمول عشان يساعدك تلاحظ يومك وتعتني بالحاجات اللي تفرق معاك،
+            من غير ضغط ولا زحمة.
+          </p>
+        </div>
+
+        <div className="space-y-3">
+          {PRINCIPLES.map((principle, index) => (
             <div
-              key={h.title}
-              className="flex gap-3 rounded-card-lg border border-app-border bg-app-surface p-4 shadow-card"
+              key={principle.title}
+              className="onboarding-reveal rounded-card-md border border-app-border bg-app-surface p-4 shadow-card"
+              style={{ animationDelay: `${index * 70 + 100}ms` }}
             >
-              <span className="text-2xl">{h.icon}</span>
-              <div>
-                <p className="text-sm font-bold text-app-text">{h.title}</p>
-                <p className="mt-0.5 text-xs text-app-text-2">{h.desc}</p>
-              </div>
+              <p className="text-sm font-bold text-app-text">
+                {principle.title}
+              </p>
+              <p className="mt-1 text-xs leading-5 text-app-text-2">
+                {principle.desc}
+              </p>
             </div>
           ))}
         </div>
@@ -53,10 +65,10 @@ export default function WelcomeStep({ onNext }: { onNext: () => void }) {
       <button
         type="button"
         onClick={onNext}
-        className="w-full rounded-card-md bg-app-primary py-3.5 text-sm font-bold text-white"
+        className="mt-8 w-full rounded-card-md bg-app-primary py-3.5 text-sm font-bold text-white shadow-card transition-transform active:scale-[.98]"
       >
         تمام، يلا نبدأ
       </button>
-    </div>
+    </main>
   );
 }

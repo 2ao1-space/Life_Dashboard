@@ -10,6 +10,7 @@ import { useQuranLog } from "@/hooks/useQuranLog";
 import { useMood } from "@/hooks/useMood";
 import { toDateKey } from "@/lib/constants/date";
 import type { FardStatus } from "@/types/prayer";
+import AppIcon from "@/components/shared/AppIcon";
 
 interface DayReportModalProps {
   date: Date | null;
@@ -30,7 +31,7 @@ const FARD_LABELS: Record<(typeof FARD_KEYS)[number], string> = {
   maghrib_status: "مغرب",
   isha_status: "عشاء",
 };
-const MOODS = ["😢", "🙁", "😐", "🙂", "😄"];
+const MOODS = ["mood-1", "mood-2", "mood-3", "mood-4", "mood-5"];
 
 export default function DayReportModal({ date, onClose }: DayReportModalProps) {
   const safeDate = date ?? new Date();
@@ -101,7 +102,13 @@ export default function DayReportModal({ date, onClose }: DayReportModalProps) {
                           : "bg-app-border text-app-text-2"
                     }`}
                   >
-                    {status === "done" ? "✓" : status === "missed" ? "!" : "-"}
+                    {status === "done" ? (
+                      <AppIcon name="✅" size={13} />
+                    ) : status === "missed" ? (
+                      "!"
+                    ) : (
+                      "-"
+                    )}
                     <span>{FARD_LABELS[key]}</span>
                   </button>
                 );
@@ -119,7 +126,13 @@ export default function DayReportModal({ date, onClose }: DayReportModalProps) {
                 className="flex items-center justify-between py-1 text-sm text-app-text"
               >
                 <span>{h.name}</span>
-                <span>{isDone(h.id, safeDate) ? "✓" : "—"}</span>
+                <span>
+                  {isDone(h.id, safeDate) ? (
+                    <AppIcon name="✅" size={14} />
+                  ) : (
+                    "—"
+                  )}
+                </span>
               </div>
             ))}
           </div>
@@ -151,7 +164,7 @@ export default function DayReportModal({ date, onClose }: DayReportModalProps) {
         {mood && (
           <div className="rounded-card-md bg-app-surface-2 p-3">
             <p className="mb-1 text-xs font-bold text-app-text-2">المزاج</p>
-            <span className="text-xl">{MOODS[mood.mood - 1]}</span>
+            <AppIcon name={MOODS[mood.mood - 1]} size={22} />
           </div>
         )}
       </div>

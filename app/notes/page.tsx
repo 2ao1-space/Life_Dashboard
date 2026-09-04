@@ -19,10 +19,8 @@ export default function NotesPage() {
 
   return (
     <main className="mx-auto max-w-md space-y-5 px-4 pb-28 pt-5">
-      <h1 className="text-lg font-extrabold text-app-text">الملاحظات</h1>
-
       {notes.length === 0 ? (
-        <EmptyState icon="📝" title="مفيش ملاحظات لسه" />
+        <EmptyState icon="notes" title="مفيش ملاحظات لسه" />
       ) : (
         <div className="columns-2 gap-3">
           {notes.map((note) => (

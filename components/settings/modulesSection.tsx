@@ -23,14 +23,12 @@ export default function ModulesSection() {
       <div className="rounded-card-lg border border-app-border bg-app-surface p-4 shadow-card">
         <ModuleGrid selected={settings.visible_modules} onToggle={toggle} />
         <p className="mt-3 text-[11.5px] text-app-text-2">
-          الداشبورد والإعدادات ثابتين دايمًا. الباقي اختيارك بالكامل.
+          الرئيسية والإعدادات ثابتين. اختار الباقي على حسب احتياجك.
         </p>
       </div>
 
       <div>
-        <p className="mb-2 text-xs font-bold text-app-text-2">
-          ترتيب الظهور في القائمة
-        </p>
+        <p className="mb-2 text-xs font-bold text-app-text-2">ترتيب الظهور</p>
         <div className="rounded-card-lg border border-app-border bg-app-surface px-4 shadow-card">
           <ModuleOrderList
             order={settings.visible_modules}

@@ -5,18 +5,19 @@ import EntityActions from "@/components/shared/EntityActions";
 import ConfirmModal from "@/components/shared/ConfirmModal";
 import { useTransactions } from "@/hooks/useTransactions";
 import type { TransactionEntity } from "@/types/finance";
+import AppIcon from "@/components/shared/AppIcon";
 
 const TYPE_STYLE: Record<string, { icon: string; className: string }> = {
   income: {
-    icon: "↓",
+    icon: "income",
     className: "bg-app-primary-soft text-app-primary-soft-text",
   },
   salary: {
-    icon: "💼",
+    icon: "salary",
     className: "bg-app-primary-soft text-app-primary-soft-text",
   },
-  expense: { icon: "↑", className: "bg-app-danger-soft text-app-danger" },
-  transfer: { icon: "↔", className: "bg-app-gold-soft text-app-gold" },
+  expense: { icon: "expense", className: "bg-app-danger-soft text-app-danger" },
+  transfer: { icon: "transfer", className: "bg-app-gold-soft text-app-gold" },
 };
 
 interface TransactionRowProps {
@@ -64,7 +65,7 @@ export default function TransactionRow({
         <div
           className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-card-sm ${meta.className}`}
         >
-          {meta.icon}
+          <AppIcon name={meta.icon} size={18} />
         </div>
         <div className="min-w-0 flex-1">
           <div className="truncate text-[13.5px] font-semibold text-app-text">

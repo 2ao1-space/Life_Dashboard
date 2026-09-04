@@ -8,12 +8,13 @@ import Field from "@/components/shared/Field";
 import Button from "@/components/shared/Button";
 import { useDocuments } from "@/hooks/useDocuments";
 import type { DocumentEntity } from "@/types/documents";
+import AppIcon from "@/components/shared/AppIcon";
 
 function iconFor(fileType: string | undefined | null) {
-  if (!fileType) return "📁";
-  if (fileType.startsWith("image/")) return "🖼️";
-  if (fileType === "application/pdf") return "📄";
-  return "📁";
+  if (!fileType) return "file";
+  if (fileType.startsWith("image/")) return "file-image";
+  if (fileType === "application/pdf") return "file-pdf";
+  return "file";
 }
 
 export default function DocumentRow({ doc }: { doc: DocumentEntity }) {
@@ -53,7 +54,11 @@ export default function DocumentRow({ doc }: { doc: DocumentEntity }) {
         className="flex cursor-pointer items-center gap-3 border-b border-app-border py-3 last:border-none"
       >
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-card-sm bg-app-surface-2 text-lg">
-          {iconFor(doc.file_type)}
+          <AppIcon
+            name={iconFor(doc.file_type)}
+            size={20}
+            className="text-app-primary"
+          />
         </div>
         <div className="min-w-0 flex-1">
           <p className="truncate text-[13.5px] font-semibold text-app-text">

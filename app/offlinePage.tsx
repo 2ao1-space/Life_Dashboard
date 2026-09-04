@@ -1,7 +1,9 @@
+import AppIcon from "@/components/shared/AppIcon";
+
 export default function OfflinePage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-3 bg-app-bg px-6 text-center">
-      <div className="text-4xl">📡</div>
+      <AppIcon name="offline" className="text-app-primary" size={42} />
       <h1 className="text-lg font-bold text-app-text">
         الصفحة دي لسه متزارتش وانت أونلاين
       </h1>

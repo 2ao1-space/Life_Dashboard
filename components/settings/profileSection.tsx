@@ -31,7 +31,7 @@ export default function ProfileSection() {
       <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-app-primary-soft text-xl font-extrabold text-app-primary-soft-text">
         {profile?.name?.[0] ?? "؟"}
       </div>
-      <div className="flex-1">
+      <div className="min-w-0 flex-1">
         <div className="flex items-center gap-1.5 text-[15px] font-bold text-app-text">
           {profile?.name || "بدون اسم"}
           <span className="rounded-full bg-app-surface-2 px-2 py-0.5 text-[11px] font-normal text-app-text-2">

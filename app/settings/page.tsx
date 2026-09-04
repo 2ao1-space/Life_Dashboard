@@ -1,4 +1,3 @@
-import ThemeToggle from "@/components/shared/Themetoggle";
 import ProfileSection from "@/components/settings/profileSection";
 import GoogleSyncSection from "@/components/settings/googleSyncSection";
 import OptionalFeaturesSection from "@/components/settings/optionalFeaturesSection";
@@ -8,35 +7,39 @@ import DangerZone from "@/components/settings/dangerZone";
 
 export default function SettingsPage() {
   return (
-    <main className="mx-auto max-w-md space-y-6 px-4 pb-28 pt-5">
-      <div className="flex items-center justify-between">
-        <h1 className="text-lg font-extrabold text-app-text">الإعدادات</h1>
-        <ThemeToggle />
-      </div>
-
+    <main className="mx-auto max-w-2xl space-y-7 px-4 pb-28 pt-6 sm:px-6">
       <ProfileSection />
-      <GoogleSyncSection />
 
       <section>
-        <h2 className="mb-2 text-xs font-bold text-app-text-2">
-          الميزات الاختيارية{" "}
-          <span className="font-normal">— شغّل/اقفل من هنا مباشرة</span>
+        <h2 className="mb-3 text-sm font-extrabold text-app-text">
+          اختار تجربتك
         </h2>
+        <p className="mb-3 text-xs text-app-text-2">
+          فعّل الصفحات والميزات اللي تناسب يومك.
+        </p>
         <OptionalFeaturesSection />
       </section>
 
       <section>
-        <h2 className="mb-2 text-xs font-bold text-app-text-2">
-          الصفحات الظاهرة
+        <h2 className="mb-3 text-sm font-extrabold text-app-text">
+          صفحات التطبيق
         </h2>
+        <p className="mb-3 text-xs text-app-text-2">
+          اضغط على أي صفحة لإظهارها أو إخفائها، واسحب لترتيبها.
+        </p>
         <ModulesSection />
       </section>
 
       <section>
-        <h2 className="mb-2 text-xs font-bold text-app-text-2">
-          الحسابات المالية
-        </h2>
+        <h2 className="mb-3 text-sm font-extrabold text-app-text">الماليات</h2>
         <AccountsSection />
+      </section>
+
+      <section>
+        <h2 className="mb-3 text-sm font-extrabold text-app-text">
+          الحساب والمزامنة
+        </h2>
+        <GoogleSyncSection />
       </section>
 
       <DangerZone />

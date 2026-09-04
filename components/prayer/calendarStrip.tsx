@@ -4,6 +4,8 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { useUserId } from "@/lib/context/UserContext";
 import { db } from "@/lib/architecture/db";
 import { toDateKey } from "@/lib/constants/date";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
 
 interface CalendarStripProps {
   selectedDate: Date;
@@ -18,11 +20,26 @@ export default function CalendarStrip({
 }: CalendarStripProps) {
   const { userId } = useUserId();
 
-  const days = Array.from({ length: 7 }, (_, i) => {
-    const d = new Date();
-    d.setDate(d.getDate() - (6 - i));
+  const [month, setMonth] = useState(
+    () => new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1),
+  );
+
+  const firstDay = new Date(month.getFullYear(), month.getMonth(), 1).getDay();
+  const days = Array.from({ length: 42 }, (_, index) => {
+    const d = new Date(
+      month.getFullYear(),
+      month.getMonth(),
+      index - firstDay + 1,
+    );
     return d;
   });
+
+  const changeMonth = (amount: number) => {
+    setMonth(
+      (current) =>
+        new Date(current.getFullYear(), current.getMonth() + amount, 1),
+    );
+  };
 
   const records = useLiveQuery(async () => {
     if (!userId) return [];
@@ -54,28 +71,77 @@ export default function CalendarStrip({
   };
 
   return (
-    <div className="flex gap-2 overflow-x-auto pb-1">
-      {days.map((d) => {
-        const isSelected = toDateKey(d) === toDateKey(selectedDate);
-        return (
-          <button
-            key={toDateKey(d)}
-            type="button"
-            onClick={() => onSelect(d)}
-            className={`flex h-[62px] w-12 shrink-0 flex-col items-center justify-center gap-1 rounded-card-sm text-xs font-semibold ${
-              isSelected
-                ? "bg-app-primary text-white"
-                : "bg-app-surface-2 text-app-text-2"
-            }`}
+    <div
+      data-no-swipe
+      className="rounded-card-lg border border-app-border bg-app-surface p-3 shadow-card"
+    >
+      <div className="mb-4 flex items-center justify-between">
+        <button
+          type="button"
+          onClick={() => changeMonth(-1)}
+          aria-label="الشهر السابق"
+          className="rounded-full p-2 text-app-text-2 hover:bg-app-surface-2"
+        >
+          <ChevronRight size={17} />
+        </button>
+        <p className="text-sm font-bold text-app-text">
+          {month.toLocaleDateString("ar-EG", {
+            month: "long",
+            year: "numeric",
+          })}
+        </p>
+        <button
+          type="button"
+          onClick={() => changeMonth(1)}
+          aria-label="الشهر التالي"
+          className="rounded-full p-2 text-app-text-2 hover:bg-app-surface-2"
+        >
+          <ChevronLeft size={17} />
+        </button>
+      </div>
+      <div className="grid grid-cols-7 gap-1 text-center">
+        {WEEKDAY_LABELS.map((label) => (
+          <span
+            key={label}
+            className="pb-2 text-[10px] font-bold text-app-text-2"
           >
-            <span>{WEEKDAY_LABELS[d.getDay()]}</span>
-            <span>{d.getDate().toLocaleString("ar-EG")}</span>
-            <span
-              className={`h-1.5 w-1.5 rounded-full ${isSelected ? "bg-white" : dotColor[statusFor(d)]}`}
-            />
-          </button>
-        );
-      })}
+            {label}
+          </span>
+        ))}
+        {days.map((d) => {
+          const isSelected = toDateKey(d) === toDateKey(selectedDate);
+          const isToday = toDateKey(d) === toDateKey(new Date());
+          const isCurrentMonth = d.getMonth() === month.getMonth();
+          return (
+            <button
+              key={toDateKey(d)}
+              type="button"
+              onClick={() => onSelect(d)}
+              className={`relative flex h-11 w-full flex-col items-center justify-center gap-0.5 rounded-card-sm text-xs font-semibold ${
+                isSelected
+                  ? "bg-app-primary text-white"
+                  : isCurrentMonth
+                    ? "text-app-text hover:bg-app-surface-2"
+                    : "text-app-text-2/35"
+              }`}
+            >
+              <span>{WEEKDAY_LABELS[d.getDay()]}</span>
+              <span
+                className={
+                  isToday && !isSelected
+                    ? "font-extrabold text-app-primary underline decoration-2 underline-offset-4"
+                    : ""
+                }
+              >
+                {d.getDate().toLocaleString("ar-EG")}
+              </span>
+              <span
+                className={`h-1.5 w-1.5 rounded-full ${isSelected ? "bg-white" : dotColor[statusFor(d)]}`}
+              />
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

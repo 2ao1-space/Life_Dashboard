@@ -26,7 +26,7 @@ export default function GoogleSyncSection() {
   return (
     <div className="rounded-card-lg border border-app-border bg-app-surface p-4 shadow-card">
       <div className="flex items-center justify-between">
-        <div>
+        <div className="min-w-0 flex-1">
           <div className="text-[13.5px] font-bold text-app-text">
             مزامنة جوجل
           </div>
@@ -39,7 +39,7 @@ export default function GoogleSyncSection() {
           </p>
         </div>
         {isLinked ? (
-          <span className="rounded-full bg-app-primary-soft px-3 py-1 text-[11px] font-bold text-app-primary-soft-text">
+          <span className="shrink-0 rounded-full bg-app-primary-soft px-3 py-1 text-[11px] font-bold text-app-primary-soft-text">
             متزامن ✓
           </span>
         ) : (
@@ -47,7 +47,7 @@ export default function GoogleSyncSection() {
             type="button"
             onClick={handleLink}
             disabled={isLinking || isLinked === null}
-            className="rounded-full bg-app-primary px-4 py-2 text-xs font-bold text-white disabled:opacity-60"
+            className="shrink-0 rounded-full bg-app-primary px-4 py-2 text-xs font-bold text-white disabled:opacity-60"
           >
             {isLinking ? "جاري الربط..." : "ربط بجوجل"}
           </button>

@@ -26,7 +26,7 @@ export default function TodayTransactionsList() {
     <>
       <div className="rounded-card-lg border border-app-border bg-app-surface px-4 shadow-card">
         {todayTransactions.length === 0 ? (
-          <EmptyState icon="🧾" title="مفيش معاملات النهاردة" />
+          <EmptyState icon="receipt" title="مفيش معاملات النهاردة" />
         ) : (
           todayTransactions.map((t) => (
             <TransactionRow

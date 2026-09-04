@@ -40,7 +40,9 @@ export default function ManageHabitsModal({
             key={h.id}
             className="flex items-center gap-2 border-b border-app-border py-2 last:border-none"
           >
-            <span className="flex-1 text-sm text-app-text">{h.name}</span>
+            <span className="min-w-0 flex-1 wrap-break-word text-sm text-app-text">
+              {h.name}
+            </span>
             <EntityActions
               onEdit={() => {
                 setEditing(h);

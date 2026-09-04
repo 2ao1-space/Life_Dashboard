@@ -8,8 +8,15 @@ import Modal from "@/components/shared/Modal";
 import Field from "@/components/shared/Field";
 import Button from "@/components/shared/Button";
 import type { AccountEntity } from "@/types/settings";
+import AppIcon from "@/components/shared/AppIcon";
 
-const ICON_OPTIONS = ["💵", "🏦", "📱", "💳", "🏧"];
+const ICON_OPTIONS = [
+  "account-cash",
+  "account-bank",
+  "account-phone",
+  "account-card",
+  "account-atm",
+];
 
 export default function AccountsSection() {
   const { accounts, addAccount, updateAccount, removeAccount } = useAccounts();
@@ -52,8 +59,11 @@ export default function AccountsSection() {
             key={account.id}
             className="flex items-center gap-2.5 border-b border-app-border px-4 py-3 last:border-none"
           >
-            <span className="flex-1 text-[13.5px] font-semibold text-app-text">
-              {account.icon} {account.name}
+            <span className="min-w-0 flex-1 wrap-break-word text-[13.5px] font-semibold text-app-text">
+              <span className="mr-1 inline-flex align-middle">
+                <AppIcon name={account.icon} size={17} />
+              </span>{" "}
+              {account.name}
             </span>
             {account.is_default ? (
               <span className="rounded-full bg-app-gold-soft px-2.5 py-1 text-[10.5px] font-bold text-app-gold">
@@ -101,7 +111,7 @@ export default function AccountsSection() {
                   : "border-app-border"
               }`}
             >
-              {opt}
+              <AppIcon name={opt} size={18} />
             </button>
           ))}
         </div>

@@ -7,6 +7,7 @@ import Button from "@/components/shared/Button";
 import DrawingCanvas from "./drawingCanvas";
 import { useNotes } from "@/hooks/useNotes";
 import type { NoteEntity, NoteType, TodoItem } from "@/types/notes";
+import AppIcon from "@/components/shared/AppIcon";
 
 interface NoteFormModalProps {
   isOpen: boolean;
@@ -16,10 +17,10 @@ interface NoteFormModalProps {
 }
 
 const TYPE_OPTIONS: { value: NoteType; label: string; icon: string }[] = [
-  { value: "text", label: "نص", icon: "📝" },
-  { value: "todo", label: "تودو", icon: "✅" },
-  { value: "image", label: "صورة", icon: "🖼️" },
-  { value: "drawing", label: "رسمة", icon: "✏️" },
+  { value: "text", label: "نص", icon: "notes" },
+  { value: "todo", label: "تودو", icon: "habits" },
+  { value: "image", label: "صورة", icon: "file-image" },
+  { value: "drawing", label: "رسمة", icon: "drawing" },
 ];
 
 export default function NoteFormModal({
@@ -89,7 +90,7 @@ export default function NoteFormModal({
       size="md"
     >
       {!editing && (
-        <div className="mb-4 grid grid-cols-4 gap-2">
+        <div className="mb-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
           {TYPE_OPTIONS.map((opt) => (
             <button
               key={opt.value}
@@ -101,7 +102,7 @@ export default function NoteFormModal({
                   : "border-app-border text-app-text-2"
               }`}
             >
-              <span className="text-base">{opt.icon}</span>
+              <AppIcon name={opt.icon} size={18} />
               {opt.label}
             </button>
           ))}
@@ -153,7 +154,7 @@ export default function NoteFormModal({
                 }`}
               />
               <span
-                className={`flex-1 text-sm ${item.done ? "text-app-text-2 line-through" : "text-app-text"}`}
+                className={`min-w-0 flex-1 wrap-break-word text-sm ${item.done ? "text-app-text-2 line-through" : "text-app-text"}`}
               >
                 {item.text}
               </span>
@@ -175,7 +176,7 @@ export default function NoteFormModal({
               onKeyDown={(e) => e.key === "Enter" && addTodoItem()}
               placeholder="مهمة جديدة..."
               dir="rtl"
-              className="flex-1 rounded-card-sm border border-app-border bg-app-bg px-3 py-2 text-sm text-app-text outline-none focus:border-app-primary"
+              className="min-w-0 flex-1 rounded-card-sm border border-app-border bg-app-bg px-3 py-2 text-sm text-app-text outline-none focus:border-app-primary"
             />
             <button
               type="button"

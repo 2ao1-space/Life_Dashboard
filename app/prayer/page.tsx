@@ -12,9 +12,7 @@ export default function PrayerPage() {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   return (
-    <main className="mx-auto max-w-md space-y-5 px-4 pb-28 pt-5">
-      <h1 className="text-lg font-extrabold text-app-text">الصلاة</h1>
-
+    <main className="mx-auto max-w-2xl space-y-5 px-4 pb-28 pt-5">
       <div className="rounded-card-lg border border-app-border bg-app-surface p-4 shadow-card">
         <PrayerCircles date={selectedDate} />
       </div>

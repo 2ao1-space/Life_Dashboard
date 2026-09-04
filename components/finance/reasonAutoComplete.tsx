@@ -65,7 +65,7 @@ export default function ReasonAutocomplete({
                   onChange(r.text);
                   setIsOpen(false);
                 }}
-                className="flex-1 text-right text-app-text"
+                className="min-w-0 flex-1 truncate text-right text-app-text"
               >
                 {r.text}
               </button>

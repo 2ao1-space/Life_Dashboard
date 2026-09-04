@@ -36,7 +36,7 @@ export default function TasksSection({ date }: { date?: Date }) {
     <div>
       <div className="rounded-card-lg border border-app-border bg-app-surface px-4 shadow-card">
         {tasks.length === 0 ? (
-          <EmptyState icon="✅" title="مفيش مهام النهاردة" />
+          <EmptyState icon="habits" title="مفيش مهام النهاردة" />
         ) : (
           tasks.map((task) => (
             <div

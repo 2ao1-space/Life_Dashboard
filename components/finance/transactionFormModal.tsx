@@ -9,6 +9,7 @@ import { useAccounts } from "@/hooks/useAccounts";
 import { useTransactions } from "@/hooks/useTransactions";
 import { useTransactionReasons } from "@/hooks/useTransactionReasons";
 import type { TransactionEntity, TransactionType } from "@/types/finance";
+import AppIcon from "@/components/shared/AppIcon";
 
 interface TransactionFormModalProps {
   isOpen: boolean;
@@ -19,10 +20,10 @@ interface TransactionFormModalProps {
 
 const TYPE_OPTIONS: { value: TransactionType; label: string; icon: string }[] =
   [
-    { value: "income", label: "دخل", icon: "↓" },
-    { value: "expense", label: "مصروف", icon: "↑" },
-    { value: "transfer", label: "تحويل", icon: "↔" },
-    { value: "salary", label: "مرتب", icon: "💼" },
+    { value: "income", label: "دخل", icon: "income" },
+    { value: "expense", label: "مصروف", icon: "expense" },
+    { value: "transfer", label: "تحويل", icon: "transfer" },
+    { value: "salary", label: "مرتب", icon: "salary" },
   ];
 
 export default function TransactionFormModal({
@@ -83,7 +84,7 @@ export default function TransactionFormModal({
       title={editing ? "تعديل المعاملة" : "معاملة جديدة"}
       size="sm"
     >
-      <div className="mb-4 grid grid-cols-4 gap-2">
+      <div className="mb-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
         {TYPE_OPTIONS.map((opt) => (
           <button
             key={opt.value}
@@ -95,7 +96,7 @@ export default function TransactionFormModal({
                 : "border-app-border text-app-text-2"
             }`}
           >
-            <span className="text-base">{opt.icon}</span>
+            <AppIcon name={opt.icon} size={18} />
             {opt.label}
           </button>
         ))}

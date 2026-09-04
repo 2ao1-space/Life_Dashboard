@@ -6,6 +6,7 @@ import ConfirmModal from "@/components/shared/ConfirmModal";
 import NoteFormModal from "./noteFormModal";
 import { useNotes } from "@/hooks/useNotes";
 import type { NoteEntity } from "@/types/notes";
+import AppIcon from "@/components/shared/AppIcon";
 
 export default function NoteCard({ note }: { note: NoteEntity }) {
   const { togglePin, removeNote } = useNotes();
@@ -25,7 +26,9 @@ export default function NoteCard({ note }: { note: NoteEntity }) {
             style={{ backgroundColor: note.category_color }}
           />
           <div className="flex shrink-0 items-center gap-1">
-            {note.is_pinned && <span className="text-xs">📌</span>}
+            {note.is_pinned && (
+              <AppIcon name="pin" size={14} className="text-app-gold" />
+            )}
             <EntityActions
               onEdit={() => setIsEditOpen(true)}
               onDelete={() => setIsDeleteOpen(true)}
@@ -119,7 +122,7 @@ export default function NoteCard({ note }: { note: NoteEntity }) {
                 onClick={() => togglePin(note)}
                 className={`shrink-0 ${note.is_pinned ? "text-app-gold" : "text-app-text-2"}`}
               >
-                📌
+                <AppIcon name="pin" size={17} />
               </button>
             </div>
             {note.type === "text" && (

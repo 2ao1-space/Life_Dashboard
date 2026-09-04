@@ -40,7 +40,7 @@ export default function ZakatSection() {
 
       <div className="rounded-card-lg border border-app-border bg-app-surface px-4 shadow-card">
         {payments.length === 0 ? (
-          <EmptyState icon="🕌" title="مفيش دفعات زكاة مسجّلة لسه" />
+          <EmptyState icon="prayer" title="مفيش دفعات زكاة مسجّلة لسه" />
         ) : (
           payments.map((p) => (
             <div

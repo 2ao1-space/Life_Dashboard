@@ -11,18 +11,18 @@ export default function AccountsScroll() {
 
   return (
     <>
-      <div className="flex gap-2.5 overflow-x-auto pb-1">
+      <div className="-mx-1 flex gap-3 overflow-x-auto px-1 pb-2">
         {accounts.map((account) => (
           <button
             key={account.id}
             type="button"
             onClick={() => setSelected(account)}
-            className="min-w-[130px] shrink-0 rounded-card-md border border-app-border bg-app-surface p-3.5 text-right shadow-card"
+            className="min-w-38.5 shrink-0 rounded-card-md border border-app-border bg-app-surface p-4 text-right shadow-card transition-transform active:scale-[.98]"
           >
-            <div className="mb-1.5 text-xs text-app-text-2">
-              {account.icon} {account.name}
+            <div className="mb-5 truncate text-xs font-semibold text-app-text-2">
+              {account.name}
             </div>
-            <div className="text-[15px] font-extrabold text-app-text">
+            <div className="text-base font-extrabold text-app-text">
               {account.balance.toLocaleString("ar-EG")} ج.م
             </div>
           </button>

@@ -48,7 +48,7 @@ export default function DebtsSection() {
       <div className="rounded-card-lg border border-app-border bg-app-surface p-4 shadow-card">
         {debts.length === 0 ? (
           <EmptyState
-            icon="🤝"
+            icon="debt"
             title={
               direction === "owed_by_me" ? "مفيش ديون عليك" : "مفيش سلف لسه"
             }
@@ -69,7 +69,7 @@ export default function DebtsSection() {
                   <button
                     type="button"
                     onClick={() => !isSettled && setPayingDebt(debt)}
-                    className="text-[13.5px] font-bold text-app-text"
+                    className="min-w-0 flex-1 truncate text-[13.5px] font-bold text-app-text"
                   >
                     {debt.person_name}
                   </button>

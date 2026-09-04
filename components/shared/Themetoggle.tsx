@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
 
-export default function ThemeToggle() {
+export default function ThemeToggle({
+  compact = false,
+}: {
+  compact?: boolean;
+}) {
   const { resolvedTheme, setTheme } = useTheme();
 
   const [mounted, setMounted] = useState(false);
@@ -14,7 +18,11 @@ export default function ThemeToggle() {
   useEffect(() => setMounted(true), []);
 
   if (!mounted) {
-    return <div className="h-9 w-24 rounded-full" />;
+    return (
+      <div
+        className={compact ? "h-9 w-9 rounded-full" : "h-9 w-24 rounded-full"}
+      />
+    );
   }
 
   const isDark = resolvedTheme === "dark";
@@ -23,10 +31,12 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="flex items-center gap-2 rounded-full border border-app-border bg-app-surface px-3.5 py-1.5 text-sm font-semibold text-app-text shadow-card"
+      aria-label={isDark ? "تفعيل الوضع الفاتح" : "تفعيل الوضع الداكن"}
+      title={isDark ? "الوضع الفاتح" : "الوضع الداكن"}
+      className={`flex items-center justify-center rounded-full border border-app-border bg-app-surface text-app-text shadow-card ${compact ? "h-9 w-9" : "gap-2 px-3.5 py-1.5 text-sm font-semibold"}`}
     >
       {isDark ? <Sun size={16} /> : <Moon size={16} />}
-      <span>{isDark ? "لايت مود" : "دارك مود"}</span>
+      {!compact && <span>{isDark ? "لايت مود" : "دارك مود"}</span>}
     </button>
   );
 }

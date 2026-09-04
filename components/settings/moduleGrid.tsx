@@ -2,6 +2,7 @@
 
 import { MODULE_META, ALL_MODULE_KEYS } from "@/lib/constants/modules";
 import type { ModuleKey } from "@/types/settings";
+import AppIcon from "@/components/shared/AppIcon";
 
 interface ModuleGridProps {
   selected: ModuleKey[];
@@ -15,7 +16,7 @@ export default function ModuleGrid({ selected, onToggle }: ModuleGridProps) {
   return (
     <div className="grid grid-cols-3 gap-2.5">
       <div className={lockedBoxClass}>
-        <div className="mb-1.5 text-xl">🏠</div>
+        <AppIcon name="home" className="mx-auto mb-1.5" size={21} />
         <span className="text-[11.5px] font-semibold text-app-text-2">
           الداشبورد
         </span>
@@ -40,7 +41,7 @@ export default function ModuleGrid({ selected, onToggle }: ModuleGridProps) {
                 ✓
               </span>
             )}
-            <div className="mb-1.5 text-xl">{meta.icon}</div>
+            <AppIcon name={meta.icon} className="mx-auto mb-1.5" size={21} />
             <span
               className={`text-[11.5px] font-semibold ${
                 isSelected ? "text-app-primary-soft-text" : "text-app-text-2"
@@ -53,7 +54,7 @@ export default function ModuleGrid({ selected, onToggle }: ModuleGridProps) {
       })}
 
       <div className={lockedBoxClass}>
-        <div className="mb-1.5 text-xl">⚙️</div>
+        <AppIcon name="controls" className="mx-auto mb-1.5" size={21} />
         <span className="text-[11.5px] font-semibold text-app-text-2">
           الإعدادات
         </span>

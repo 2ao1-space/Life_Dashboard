@@ -9,6 +9,7 @@ import Field from "@/components/shared/Field";
 import Button from "@/components/shared/Button";
 import EmptyState from "@/components/shared/EmptyState";
 import type { DuaEntity } from "@/types/adhkar";
+import AppIcon from "@/components/shared/AppIcon";
 
 const COLOR_OPTIONS = ["#2F6F5E", "#B8935F", "#B5654F", "#5F7FB8", "#8F5FB8"];
 
@@ -56,7 +57,7 @@ export default function DuasSection() {
     <div>
       <div className="rounded-card-lg border border-app-border bg-app-surface px-4 shadow-card">
         {duas.length === 0 ? (
-          <EmptyState icon="🤲" title="مفيش أدعية شخصية لسه" />
+          <EmptyState icon="dua" title="مفيش أدعية شخصية لسه" />
         ) : (
           duas.map((d) => (
             <div
@@ -78,7 +79,7 @@ export default function DuasSection() {
                 onClick={() => togglePin(d)}
                 className={`shrink-0 text-sm ${d.is_pinned ? "text-app-gold" : "text-app-text-2"}`}
               >
-                📌
+                <AppIcon name="pin" size={16} />
               </button>
               <EntityActions
                 onEdit={() => openEdit(d)}

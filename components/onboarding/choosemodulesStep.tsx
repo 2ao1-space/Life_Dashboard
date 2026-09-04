@@ -24,37 +24,53 @@ export default function ChooseModulesStep({
   };
 
   return (
-    <div className="flex min-h-screen flex-col justify-between px-5 pb-8 pt-12">
+    <main className="onboarding-shell flex min-h-screen flex-col justify-between px-5 pb-8 pt-7">
       <div>
-        <h1 className="mb-1 text-xl font-extrabold text-app-text">
-          اختار صفحاتك
-        </h1>
-        <p className="mb-6 text-sm text-app-text-2">
-          مش كل حد محتاج نفس الحاجات — اختار اللي هيفيدك بس. تقدر تغيّرها أو
-          ترتّبها في أي وقت من الإعدادات.
-        </p>
+        <div className="mb-10 flex items-center justify-between">
+          <span className="text-xs font-bold text-app-primary">حياتي</span>
+          <div
+            className="flex items-center gap-2"
+            aria-label="الخطوة الثانية من خطوتين"
+          >
+            <span className="h-1.5 w-10 rounded-full bg-app-primary" />
+            <span className="h-1.5 w-10 rounded-full bg-app-primary" />
+            <span className="mr-1 text-[11px] text-app-text-2">٢ / ٢</span>
+          </div>
+        </div>
 
-        <div className="rounded-card-lg border border-app-border bg-app-surface p-4 shadow-card">
+        <div className="onboarding-reveal mb-7">
+          <p className="mb-2 text-sm font-semibold text-app-primary">
+            خطوة أخيرة
+          </p>
+          <h1 className="text-3xl font-extrabold leading-tight text-app-text">
+            إيه اللي تحب تتابعه؟
+          </h1>
+          <p className="mt-3 text-sm leading-7 text-app-text-2">
+            اختار اللي يناسب يومك. تقدر تغيّر اختيارك بعدين من الإعدادات.
+          </p>
+        </div>
+
+        <div className="onboarding-reveal rounded-card-lg border border-app-border bg-app-surface p-3.5 shadow-card">
           <ModuleGrid selected={selected} onToggle={toggle} />
         </div>
       </div>
 
-      <div className="flex gap-3">
+      <div className="mt-8 flex gap-3">
         <button
           type="button"
           onClick={onBack}
-          className="flex-1 rounded-card-md border border-app-border py-3.5 text-sm font-bold text-app-text-2"
+          className="flex-1 rounded-card-md border border-app-border bg-app-surface py-3.5 text-sm font-bold text-app-text-2 transition-colors hover:bg-app-surface-2"
         >
           رجوع
         </button>
         <button
           type="button"
           onClick={() => onFinish(selected)}
-          className="flex-[2] rounded-card-md bg-app-primary py-3.5 text-sm font-bold text-white"
+          className="flex-2 rounded-card-md bg-app-primary py-3.5 text-sm font-bold text-white shadow-card transition-transform active:scale-[.98]"
         >
           ابدأ استخدام التطبيق
         </button>
       </div>
-    </div>
+    </main>
   );
 }

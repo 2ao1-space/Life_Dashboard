@@ -52,30 +52,36 @@ export default function DhikrList({ category }: { category: DhikrCategory }) {
 
   return (
     <div>
-      <div className="rounded-card-lg border border-app-border bg-app-surface px-4 shadow-card">
+      <div className="overflow-hidden rounded-card-lg border border-app-border bg-app-surface px-4 shadow-card">
         {sorted.map((d) => {
           const isDone = d.current_count >= d.target_count;
+          const remaining = Math.max(d.target_count - d.current_count, 0);
           return (
             <div
               key={d.id}
               onClick={() => incrementCount(d)}
-              className={`flex cursor-pointer items-center gap-3 border-b border-app-border py-3 last:border-none ${
+              className={`flex cursor-pointer items-start gap-3 border-b border-app-border py-3.5 last:border-none ${
                 isDone ? "opacity-50" : ""
               }`}
             >
               <div
-                className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
+                className={`mt-0.5 flex h-8 min-w-8 shrink-0 items-center justify-center rounded-card-sm px-1 text-[11px] font-bold ${
                   isDone
                     ? "bg-app-surface-2 text-app-text-2"
                     : "bg-app-primary-soft text-app-primary-soft-text"
                 }`}
               >
-                {isDone ? "✓" : d.target_count - d.current_count}
+                {isDone ? "تم" : remaining}
               </div>
               <div className="min-w-0 flex-1">
-                <p className="break-words text-[13.5px] font-semibold text-app-text">
+                <p className="wrap-break-word text-sm font-semibold leading-6 text-app-text">
                   {d.text}
                 </p>
+                {!isDone && (
+                  <p className="mt-0.5 text-[11px] text-app-text-2">
+                    متبقي للتكرار
+                  </p>
+                )}
               </div>
               <EntityActions
                 onEdit={() => openEdit(d)}

@@ -54,8 +54,8 @@ function SortableRow({ moduleKey }: { moduleKey: ModuleKey }) {
       >
         <GripVertical size={16} />
       </button>
-      <span className="flex-1 text-[13.5px] font-semibold text-app-text">
-        {meta.icon} {meta.label}
+      <span className="min-w-0 flex-1 wrap-break-word text-[13.5px] font-semibold text-app-text">
+        {meta.label}
       </span>
     </div>
   );
