@@ -13,7 +13,7 @@ export function useTasks(date?: Date) {
     if (!userId) return undefined;
     const all = await tasksRepository.getAll(userId);
     return all
-      .filter((t) => t.date === dateKey)
+      .filter((t) => t.date === dateKey || (t.date < dateKey && !t.done))
       .sort((a, b) => a.order - b.order);
   }, [userId, dateKey]);
 

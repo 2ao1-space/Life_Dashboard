@@ -5,6 +5,7 @@ import { CloudAdapter } from "./CloudAdapter";
 import { SyncManager, type Syncable } from "./SyncManager";
 
 export class CollectionRepository<T extends BaseEntity> implements Syncable {
+  readonly syncLabel: string;
   private local: LocalStorageAdapter<T>;
   private cloud: CloudAdapter<T>;
 
@@ -13,6 +14,7 @@ export class CollectionRepository<T extends BaseEntity> implements Syncable {
     private tableName: string,
     customCloud?: CloudAdapter<T>,
   ) {
+    this.syncLabel = tableName;
     this.local = new LocalStorageAdapter<T>(table);
     this.cloud = customCloud ?? new CloudAdapter<T>(tableName);
     SyncManager.register(this);

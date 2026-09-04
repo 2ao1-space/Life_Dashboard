@@ -18,7 +18,7 @@ function ensureDefaultAccount(userId: string): Promise<void> {
     if (count > 0) return;
     await accountsRepository.create(userId, {
       name: "كاش",
-      icon: "💵",
+      icon: "account-cash",
       balance: 0,
       is_default: true,
       order: 0,

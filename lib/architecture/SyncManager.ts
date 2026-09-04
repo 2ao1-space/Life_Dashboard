@@ -1,5 +1,6 @@
 export interface Syncable {
   syncPending(): Promise<void>;
+  syncLabel?: string;
 }
 
 class SyncManagerClass {
@@ -18,18 +19,37 @@ class SyncManagerClass {
       try {
         await repo.syncPending();
       } catch (error) {
-        const details =
-          error instanceof Error
-            ? { message: error.message, stack: error.stack }
-            : JSON.parse(
-                JSON.stringify(error, Object.getOwnPropertyNames(error ?? {})),
-              );
+        const details = this.describeError(error);
         console.error(
-          `[SyncManager] sync failed for repository #${index}:`,
+          `[SyncManager] sync failed for ${repo.syncLabel ?? `repository #${index}`}:`,
           details,
         );
       }
     }
+  }
+
+  private describeError(error: unknown): Record<string, unknown> {
+    if (error instanceof Error) {
+      return {
+        name: error.name,
+        message: error.message,
+        code: "code" in error ? error.code : undefined,
+        details: "details" in error ? error.details : undefined,
+        hint: "hint" in error ? error.hint : undefined,
+        stack: error.stack,
+      };
+    }
+
+    if (error && typeof error === "object") {
+      return Object.fromEntries(
+        Object.getOwnPropertyNames(error).map((key) => [
+          key,
+          (error as Record<string, unknown>)[key],
+        ]),
+      );
+    }
+
+    return { message: String(error) };
   }
 
   start(): void {
