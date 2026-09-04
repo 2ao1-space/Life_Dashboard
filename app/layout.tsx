@@ -13,8 +13,8 @@ const cairo = Cairo({
 });
 
 export const metadata: Metadata = {
-  title: "حياتي",
-  description: "تطبيق إدارة الحياة الشخصية",
+  title: "ميزان",
+  description: "ميزانك اليومي لإدارة حياتك الشخصية",
 };
 
 export default function RootLayout({

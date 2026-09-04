@@ -65,7 +65,7 @@ export default function AppNav() {
               })}
             </p>
           </div>
-          {/* <span className="text-base font-extrabold text-app-text">حياتي</span> */}
+          {/* <span className="text-base font-extrabold text-app-text">ميزان</span> */}
         </div>
         <div ref={menuRef} className="relative flex items-center gap-2">
           <ThemeToggle compact />

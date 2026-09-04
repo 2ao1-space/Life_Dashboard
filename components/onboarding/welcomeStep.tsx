@@ -20,7 +20,7 @@ export default function WelcomeStep({ onNext }: { onNext: () => void }) {
     <main className="onboarding-shell flex min-h-screen flex-col justify-between px-5 pb-8 pt-7">
       <div>
         <div className="mb-10 flex items-center justify-between">
-          <span className="text-xs font-bold text-app-primary">حياتي</span>
+          <span className="text-xs font-bold text-app-primary">ميزان</span>
           <div
             className="flex items-center gap-2"
             aria-label="الخطوة الأولى من خطوتين"
@@ -39,7 +39,7 @@ export default function WelcomeStep({ onNext }: { onNext: () => void }) {
             حياتك، بشكل أبسط
           </h1>
           <p className="mt-3 max-w-sm text-sm leading-7 text-app-text-2">
-            حياتي معمول عشان يساعدك تلاحظ يومك وتعتني بالحاجات اللي تفرق معاك،
+            ميزان معمول عشان يساعدك تلاحظ يومك وتعتني بالحاجات اللي تفرق معاك،
             من غير ضغط ولا زحمة.
           </p>
         </div>

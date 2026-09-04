@@ -27,7 +27,7 @@ export default function ChooseModulesStep({
     <main className="onboarding-shell flex min-h-screen flex-col justify-between px-5 pb-8 pt-7">
       <div>
         <div className="mb-10 flex items-center justify-between">
-          <span className="text-xs font-bold text-app-primary">حياتي</span>
+          <span className="text-xs font-bold text-app-primary">ميزان</span>
           <div
             className="flex items-center gap-2"
             aria-label="الخطوة الثانية من خطوتين"

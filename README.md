@@ -1,25 +1,34 @@
-# How Can I Make My Life Easier?
+# ميزان
 
-I'm trying to build my own all-in-one life dashboard.
+ميزان هو لوحة شخصية بسيطة تساعدك تتابع يومك وتحافظ على توازن جوانب حياتك المهمة في مكان واحد.
 
-The goal of this project is simple:
+## المميزات
 
-> Build a single application that helps me organize every part of my life in one place.
+- متابعة الصلاة والأذكار وورد القرآن
+- إدارة العادات والمهام اليومية
+- تسجيل الحسابات والمعاملات والديون والزكاة
+- كتابة الملاحظات وحفظ الوثائق
+- تحليلات مختصرة تساعدك تفهم تقدمك
+- واجهة عربية متجاوبة تعمل على الهاتف والكمبيوتر
+- دعم العمل دون اتصال مع مزامنة اختيارية عبر Google
 
-Instead of using dozens of different apps, I want one clean, fast, and customizable dashboard that works the way I think.
+## التشغيل محليًا
 
-## Why?
+```bash
+npm install
+npm run dev
+```
 
-I found myself switching between many different apps every day:
+ثم افتح `http://localhost:3000`.
 
-- Finance & expenses
-- Daily tasks
-- Habits
-- Quran
-- Adhkar
-- Prayer tracker
-- Notes
-- Documents
-- Analytics
+## الأوامر
 
-So I decided to build my own solution.
+```bash
+npm run lint
+npm run build
+npm run start
+```
+
+## التقنية
+
+ميزان مبني باستخدام Next.js وReact وTypeScript وTailwind CSS، مع تخزين محلي عبر Dexie ومزامنة اختيارية باستخدام Supabase.

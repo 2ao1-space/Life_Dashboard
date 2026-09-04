@@ -8,7 +8,7 @@ export interface BaseEntity {
   deleted?: boolean;
 }
 
-export class HayatiDB extends Dexie {
+export class MizanDB extends Dexie {
   profile!: Table<import("@/types/settings").ProfileEntity, string>;
   settings!: Table<import("@/types/settings").SettingsEntity, string>;
   accounts!: Table<import("@/types/settings").AccountEntity, string>;
@@ -156,4 +156,4 @@ export class HayatiDB extends Dexie {
   }
 }
 
-export const db = new HayatiDB();
+export const db = new MizanDB();

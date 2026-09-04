@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "حياتي",
-    short_name: "حياتي",
-    description: "تطبيق إدارة الحياة الشخصية اليومية",
+    name: "ميزان",
+    short_name: "ميزان",
+    description: "ميزانك اليومي لإدارة حياتك الشخصية",
     start_url: "/",
     display: "standalone",
     background_color: "#FAFAF8",
