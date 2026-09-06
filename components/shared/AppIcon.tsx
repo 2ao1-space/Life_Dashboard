@@ -64,8 +64,8 @@ const ICONS: Record<string, LucideIcon> = {
   "mood-4": Smile,
   "mood-5": SmilePlus,
   upload: Upload,
-  income: TrendingDown,
-  expense: TrendingUp,
+  income: TrendingUp,
+  expense: TrendingDown,
   transfer: TabletSmartphone,
   "💰": CircleDollarSign,
   "🕌": Landmark,
@@ -116,7 +116,7 @@ export default function AppIcon({
   size = 20,
   strokeWidth = 1.8,
 }: AppIconProps) {
-  const Icon = ICONS[name] ?? Sparkles;
+  const Icon = ICONS[name.trim()] ?? Sparkles;
   return (
     <Icon
       aria-hidden="true"

@@ -1,8 +1,9 @@
 "use client";
 
-import { Pencil, Trash2, Share2 } from "lucide-react";
+import { Eye, Pencil, Trash2, Share2 } from "lucide-react";
 
 interface EntityActionsProps {
+  onView?: () => void;
   onEdit?: () => void;
   onDelete?: () => void;
   onShare?: () => void;
@@ -10,6 +11,7 @@ interface EntityActionsProps {
 }
 
 export default function EntityActions({
+  onView,
   onEdit,
   onDelete,
   onShare,
@@ -20,6 +22,16 @@ export default function EntityActions({
       className="flex shrink-0 items-center gap-0.5"
       onClick={(e) => e.stopPropagation()}
     >
+      {onView && (
+        <button
+          type="button"
+          onClick={onView}
+          aria-label="عرض"
+          className="rounded-full p-2 text-app-text-2 hover:bg-app-surface-2"
+        >
+          <Eye size={size} />
+        </button>
+      )}
       {onShare && (
         <button
           type="button"

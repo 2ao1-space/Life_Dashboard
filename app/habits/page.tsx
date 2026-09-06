@@ -11,11 +11,6 @@ export default function HabitsPage() {
   return (
     <main className="mx-auto max-w-md space-y-5 px-4 pb-28 pt-5">
       <section>
-        <h2 className="mb-2 text-xs font-bold text-app-text-2">مهام اليوم</h2>
-        <TasksSection />
-      </section>
-
-      <section>
         <div className="mb-2 flex items-center justify-between">
           <h2 className="text-xs font-bold text-app-text-2">
             جدول العادات — الشهر ده
@@ -29,6 +24,11 @@ export default function HabitsPage() {
           </button>
         </div>
         <HabitsGrid />
+      </section>
+
+      <section>
+        <h2 className="mb-2 text-xs font-bold text-app-text-2">مهام اليوم</h2>
+        <TasksSection />
       </section>
 
       <ManageHabitsModal

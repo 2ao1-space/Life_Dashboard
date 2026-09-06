@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   ArrowDownLeft,
@@ -51,6 +52,7 @@ function toMinutes(value: string) {
 }
 
 export default function DashboardView() {
+  const router = useRouter();
   const { profile } = useProfile();
   const { totalBalance } = useFinanceSummary();
   const { transactions } = useTransactions();
@@ -125,35 +127,11 @@ export default function DashboardView() {
 
   return (
     <main className="mx-auto max-w-6xl px-4 pb-10 pt-7 sm:px-6 lg:px-10">
-      {/* <header className="mb-7 flex items-end justify-between">
-        <div>
-          <p className="mb-1 text-xs font-bold text-app-primary">
-            مساحتك اليومية
-          </p>
-          <h1 className="text-2xl font-extrabold text-app-text sm:text-3xl">
-            أهلًا{profile?.name ? ` يا ${profile.name}` : " بيك"}
-          </h1>
-          <p className="mt-2 text-sm text-app-text-2">
-            {now.toLocaleDateString("ar-EG", {
-              weekday: "long",
-              day: "numeric",
-              month: "long",
-            })}
-          </p>
-        </div>
-        <div className="hidden rounded-card-md bg-app-surface p-3 text-left shadow-card sm:block">
-          <p className="text-xs text-app-text-2">الوقت الآن</p>
-          <p className="mt-1 font-bold text-app-text">
-            {now.toLocaleTimeString("ar-EG", {
-              hour: "numeric",
-              minute: "2-digit",
-              hour12: true,
-            })}
-          </p>
-        </div>
-      </header> */}
       <div className="grid min-w-0 gap-4 lg:grid-cols-12">
-        <section className="rounded-card-lg bg-app-primary p-6 text-white shadow-card lg:col-span-7 lg:p-8">
+        <section
+          onClick={() => router.push("/prayer")}
+          className="cursor-pointer rounded-card-lg bg-app-primary p-6 text-white shadow-card lg:col-span-7 lg:p-8"
+        >
           <div className="flex items-center justify-between">
             <p className="flex items-center gap-2 text-sm font-bold">
               <Clock3 size={18} /> الصلاة القادمة
@@ -176,7 +154,10 @@ export default function DashboardView() {
               : "--:--:--"}
           </p>
         </section>
-        <section className="rounded-card-lg border border-app-border bg-app-surface p-5 shadow-card lg:col-span-5">
+        <section
+          onClick={() => router.push("/prayer")}
+          className="cursor-pointer rounded-card-lg border border-app-border bg-app-surface p-5 shadow-card lg:col-span-5"
+        >
           <div className="mb-4 flex items-center justify-between">
             <div>
               <p className="flex items-center gap-2 text-sm font-bold text-app-text">
@@ -209,7 +190,10 @@ export default function DashboardView() {
             ))}
           </div>
         </section>
-        <section className="rounded-card-lg border border-app-border bg-app-surface p-5 shadow-card lg:col-span-12">
+        <section
+          onClick={() => router.push("/finance")}
+          className="cursor-pointer rounded-card-lg border border-app-border bg-app-surface p-5 shadow-card lg:col-span-12"
+        >
           <div className="mb-5 flex min-w-0 flex-wrap items-start justify-between gap-3">
             <div className="min-w-0">
               <p className="flex items-center gap-2 text-sm font-bold text-app-text">
@@ -263,7 +247,10 @@ export default function DashboardView() {
             />
           </div>
         </section>{" "}
-        <section className="rounded-card-lg border border-app-border bg-app-surface p-5 shadow-card lg:col-span-4">
+        <section
+          onClick={() => router.push("/habits")}
+          className="cursor-pointer rounded-card-lg border border-app-border bg-app-surface p-5 shadow-card lg:col-span-4"
+        >
           <div className="flex items-center justify-between">
             <p className="flex items-center gap-2 text-sm font-bold text-app-text">
               <CheckCircle2 size={17} className="text-app-primary" /> تقدم
@@ -283,7 +270,10 @@ export default function DashboardView() {
             أنجزت {doneHabits} من {habits.length} عادة اليوم
           </p>
         </section>{" "}
-        <section className="rounded-card-lg border border-app-border bg-app-surface p-5 shadow-card lg:col-span-4">
+        <section
+          onClick={() => router.push("/adhkar")}
+          className="cursor-pointer rounded-card-lg border border-app-border bg-app-surface p-5 shadow-card lg:col-span-4"
+        >
           <p className="flex items-center gap-2 text-sm font-bold text-app-text">
             <BookOpen size={17} className="text-app-primary" /> ورد القرآن
           </p>
@@ -293,7 +283,10 @@ export default function DashboardView() {
           </p>
           <p className="mt-2 text-xs text-app-text-2">استمر على وردك اليومي</p>
         </section>{" "}
-        <section className="rounded-card-lg border border-app-border bg-app-surface p-5 shadow-card lg:col-span-4">
+        <section
+          onClick={() => router.push("/habits")}
+          className="cursor-pointer rounded-card-lg border border-app-border bg-app-surface p-5 shadow-card lg:col-span-4"
+        >
           <p className="flex items-center gap-2 text-sm font-bold text-app-text">
             <ListTodo size={17} className="text-app-primary" /> مهام اليوم
           </p>
@@ -304,7 +297,10 @@ export default function DashboardView() {
           </p>
           <p className="mt-2 text-xs text-app-text-2">مهام مكتملة</p>
         </section>{" "}
-        <section className="rounded-card-lg border border-app-border bg-app-surface p-5 shadow-card lg:col-span-7">
+        <section
+          onClick={() => router.push("/habits")}
+          className="cursor-pointer rounded-card-lg border border-app-border bg-app-surface p-5 shadow-card lg:col-span-7"
+        >
           <div className="mb-3 flex items-center justify-between">
             <p className="flex items-center gap-2 text-sm font-bold text-app-text">
               <ListTodo size={17} className="text-app-primary" /> قائمة اليوم
@@ -316,7 +312,10 @@ export default function DashboardView() {
               <button
                 key={task.id}
                 type="button"
-                onClick={() => toggleTask(task.id, task.done)}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  toggleTask(task.id, task.done);
+                }}
                 className="flex w-full items-center gap-3 border-b border-app-border py-3 text-right last:border-0"
               >
                 <span

@@ -46,6 +46,12 @@ export default function TransactionFormModal({
   const [isSaving, setIsSaving] = useState(false);
 
   const effectiveAccountId = accountId || accounts[0]?.id || "";
+  const selectedAccount = accounts.find(
+    (account) => account.id === effectiveAccountId,
+  );
+  const selectedToAccount = accounts.find(
+    (account) => account.id === toAccountId,
+  );
 
   const numericAmount = parseFloat(amount);
   const isTransfer = type === "transfer";
@@ -106,17 +112,28 @@ export default function TransactionFormModal({
         <label className="mb-1.5 block text-xs font-semibold text-app-text-2">
           {isTransfer ? "من حساب" : "الحساب"}
         </label>
-        <select
-          value={effectiveAccountId}
-          onChange={(e) => setAccountId(e.target.value)}
-          className="w-full rounded-card-sm border border-app-border bg-app-bg px-3 py-2.5 text-sm text-app-text outline-none focus:border-app-primary"
-        >
-          {accounts.map((a) => (
-            <option key={a.id} value={a.id}>
-              {a.icon} {a.name}
-            </option>
-          ))}
-        </select>
+        <div className="relative flex items-center">
+          <AppIcon
+            name={selectedAccount?.icon ?? "account-cash"}
+            size={18}
+            className="pointer-events-none absolute right-3 text-app-text-2 "
+          />
+          <select
+            value={effectiveAccountId}
+            onChange={(e) => setAccountId(e.target.value)}
+            className="w-full rounded-card-sm border border-app-border bg-app-bg py-2.5  pe-10 ps-9 text-sm text-app-text outline-none focus:border-app-primary"
+          >
+            {accounts.map((a) => (
+              <option
+                key={a.id}
+                value={a.id}
+                className="text-sm text-app-text pl-8"
+              >
+                {a.name}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       {isTransfer && (
@@ -124,20 +141,29 @@ export default function TransactionFormModal({
           <label className="mb-1.5 block text-xs font-semibold text-app-text-2">
             إلى حساب
           </label>
-          <select
-            value={toAccountId}
-            onChange={(e) => setToAccountId(e.target.value)}
-            className="w-full rounded-card-sm border border-app-border bg-app-bg px-3 py-2.5 text-sm text-app-text outline-none focus:border-app-primary"
-          >
-            <option value="">اختار الحساب</option>
-            {accounts
-              .filter((a) => a.id !== effectiveAccountId)
-              .map((a) => (
-                <option key={a.id} value={a.id}>
-                  {a.icon} {a.name}
-                </option>
-              ))}
-          </select>
+          <div className="relative flex items-center">
+            {selectedToAccount && (
+              <AppIcon
+                name={selectedToAccount.icon}
+                size={18}
+                className="pointer-events-none absolute right-3 text-app-text-2"
+              />
+            )}
+            <select
+              value={toAccountId}
+              onChange={(e) => setToAccountId(e.target.value)}
+              className="w-full rounded-card-sm border border-app-border bg-app-bg py-2.5 pe-10 ps-3 text-sm text-app-text outline-none focus:border-app-primary"
+            >
+              <option value="">اختار الحساب</option>
+              {accounts
+                .filter((a) => a.id !== effectiveAccountId)
+                .map((a) => (
+                  <option key={a.id} value={a.id}>
+                    {a.name}
+                  </option>
+                ))}
+            </select>
+          </div>
         </div>
       )}
 

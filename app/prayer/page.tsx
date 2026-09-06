@@ -13,14 +13,14 @@ export default function PrayerPage() {
 
   return (
     <main className="mx-auto max-w-2xl space-y-5 px-4 pb-28 pt-5">
-      <div className="rounded-card-lg border border-app-border bg-app-surface p-4 shadow-card">
-        <PrayerCircles date={selectedDate} />
-      </div>
-
       <section>
         <h2 className="mb-2 text-xs font-bold text-app-text-2">الكالندر</h2>
         <CalendarStrip selectedDate={selectedDate} onSelect={setSelectedDate} />
       </section>
+
+      <div className="rounded-card-lg border border-app-border bg-app-surface p-4 shadow-card">
+        <PrayerCircles date={selectedDate} />
+      </div>
 
       {settings?.nawafil_enabled && (
         <section>

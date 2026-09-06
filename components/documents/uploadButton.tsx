@@ -29,7 +29,6 @@ export default function UploadButton() {
       <input
         ref={fileInputRef}
         type="file"
-        capture="environment"
         onChange={handleFile}
         className="hidden"
       />

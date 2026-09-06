@@ -34,6 +34,23 @@ export default function TasksSection({ date }: { date?: Date }) {
 
   return (
     <div>
+      <div className="mt-2.5 flex gap-2 mb-4">
+        <input
+          value={newText}
+          onChange={(e) => setNewText(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleAdd()}
+          placeholder="مهمة جديدة..."
+          dir="rtl"
+          className="min-w-0 flex-1 rounded-card-sm border border-app-border bg-app-surface px-3 py-2 text-sm text-app-text outline-none focus:border-app-primary"
+        />
+        <button
+          type="button"
+          onClick={handleAdd}
+          className="shrink-0 rounded-card-sm bg-app-primary px-4 text-sm font-bold text-white"
+        >
+          ＋
+        </button>
+      </div>
       <div className="rounded-card-lg border border-app-border bg-app-surface px-4 shadow-card">
         {tasks.length === 0 ? (
           <EmptyState icon="habits" title="مفيش مهام النهاردة" />
@@ -75,24 +92,6 @@ export default function TasksSection({ date }: { date?: Date }) {
             </div>
           ))
         )}
-      </div>
-
-      <div className="mt-2.5 flex gap-2">
-        <input
-          value={newText}
-          onChange={(e) => setNewText(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleAdd()}
-          placeholder="مهمة جديدة..."
-          dir="rtl"
-          className="min-w-0 flex-1 rounded-card-sm border border-app-border bg-app-surface px-3 py-2 text-sm text-app-text outline-none focus:border-app-primary"
-        />
-        <button
-          type="button"
-          onClick={handleAdd}
-          className="shrink-0 rounded-card-sm bg-app-primary px-4 text-sm font-bold text-white"
-        >
-          ＋
-        </button>
       </div>
 
       <ConfirmModal

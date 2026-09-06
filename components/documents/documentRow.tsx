@@ -69,41 +69,57 @@ export default function DocumentRow({ doc }: { doc: DocumentEntity }) {
           </p>
         </div>
         <EntityActions
+          onView={() => setIsViewOpen(true)}
           onEdit={() => setIsEditOpen(true)}
           onDelete={() => setIsDeleteOpen(true)}
           onShare={handleShare}
         />
       </div>
 
-      {isViewOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
-          onClick={() => setIsViewOpen(false)}
-        >
-          <div
-            className="max-h-[85vh] w-full max-w-md overflow-y-auto rounded-card-lg bg-app-surface p-4 shadow-card"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <p className="mb-3 text-sm font-bold text-app-text">{doc.title}</p>
-            {doc.file_type?.startsWith("image/") ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={doc.file_data}
-                alt={doc.title}
-                className="w-full rounded-card-sm"
-              />
-            ) : (
-              <a
-                href={doc.file_data}
-                download={doc.file_name}
-                className="block rounded-card-sm bg-app-primary-soft py-3 text-center text-sm font-bold text-app-primary-soft-text"
-              >
-                تحميل الملف
-              </a>
-            )}
+      <Modal
+        isOpen={isViewOpen}
+        onClose={() => setIsViewOpen(false)}
+        title={doc.title}
+        size="lg"
+      >
+        {doc.file_type?.startsWith("image/") ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={doc.file_data}
+            alt={doc.title}
+            className="max-h-[68vh] w-full rounded-card-sm object-contain"
+          />
+        ) : doc.file_type === "application/pdf" ? (
+          <div className="space-y-3">
+            <object
+              data={doc.file_data}
+              type="application/pdf"
+              aria-label={doc.title}
+              className="h-[68vh] w-full rounded-card-sm border border-app-border"
+            >
+              <p className="text-center text-sm text-app-text-2">
+                المعاينة غير متاحة في المتصفح
+              </p>
+            </object>
+            <a
+              href={doc.file_data}
+              target="_blank"
+              rel="noreferrer"
+              className="block rounded-card-sm bg-app-primary-soft py-3 text-center text-sm font-bold text-app-primary-soft-text"
+            >
+              فتح الملف في تبويب جديد
+            </a>
           </div>
-        </div>
-      )}
+        ) : (
+          <a
+            href={doc.file_data}
+            download={doc.file_name}
+            className="block rounded-card-sm bg-app-primary-soft py-3 text-center text-sm font-bold text-app-primary-soft-text"
+          >
+            تحميل الملف
+          </a>
+        )}
+      </Modal>
 
       <Modal
         isOpen={isEditOpen}
