@@ -1,3 +1,5 @@
+import { isSupabaseConfigured } from "@/lib/supabase/client";
+
 export interface Syncable {
   syncPending(): Promise<void>;
   syncLabel?: string;
@@ -13,6 +15,7 @@ class SyncManagerClass {
   }
 
   async syncAll(): Promise<void> {
+    if (!isSupabaseConfigured) return;
     if (typeof navigator !== "undefined" && !navigator.onLine) return;
 
     for (const [index, repo] of this.repositories.entries()) {
@@ -53,6 +56,7 @@ class SyncManagerClass {
   }
 
   start(): void {
+    if (!isSupabaseConfigured) return;
     if (this.started || typeof window === "undefined") return;
     this.started = true;
 

@@ -10,13 +10,13 @@ interface ModuleGridProps {
 }
 
 const lockedBoxClass =
-  "rounded-card-md border border-dashed border-app-border bg-app-surface-2 p-3.5 text-center opacity-60";
+  "rounded-card-md border border-dashed border-app-border bg-app-surface-2 p-3.5 text-center opacity-60 shadow-sm";
 
 export default function ModuleGrid({ selected, onToggle }: ModuleGridProps) {
   return (
     <div className="grid grid-cols-3 gap-2.5">
       <div className={lockedBoxClass}>
-        <AppIcon name="home" className="mx-auto mb-1.5" size={21} />
+        <AppIcon name="home" className="mx-auto mb-1.5 text-app-text-2" size={21} />
         <span className="text-[11.5px] font-semibold text-app-text-2">
           الداشبورد
         </span>
@@ -30,10 +30,10 @@ export default function ModuleGrid({ selected, onToggle }: ModuleGridProps) {
             key={key}
             type="button"
             onClick={() => onToggle(key)}
-            className={`relative rounded-card-md border p-3.5 text-center transition-colors ${
+            className={`relative rounded-card-md border p-3.5 text-center transition-all duration-200 active:scale-[0.98] ${
               isSelected
-                ? "border-app-primary bg-app-primary-soft"
-                : "border-dashed border-app-border"
+                ? "border-app-primary bg-app-primary-soft shadow-sm"
+                : "border-app-border bg-app-surface hover:bg-app-surface-2"
             }`}
           >
             {isSelected && (
@@ -41,7 +41,11 @@ export default function ModuleGrid({ selected, onToggle }: ModuleGridProps) {
                 ✓
               </span>
             )}
-            <AppIcon name={meta.icon} className="mx-auto mb-1.5" size={21} />
+            <AppIcon
+              name={meta.icon}
+              className={`mx-auto mb-1.5 ${isSelected ? "text-app-primary" : "text-app-text-2"}`}
+              size={21}
+            />
             <span
               className={`text-[11.5px] font-semibold ${
                 isSelected ? "text-app-primary-soft-text" : "text-app-text-2"
@@ -54,7 +58,7 @@ export default function ModuleGrid({ selected, onToggle }: ModuleGridProps) {
       })}
 
       <div className={lockedBoxClass}>
-        <AppIcon name="controls" className="mx-auto mb-1.5" size={21} />
+        <AppIcon name="controls" className="mx-auto mb-1.5 text-app-text-2" size={21} />
         <span className="text-[11.5px] font-semibold text-app-text-2">
           الإعدادات
         </span>

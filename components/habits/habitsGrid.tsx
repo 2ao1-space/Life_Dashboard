@@ -5,10 +5,14 @@ import { useHabits } from "@/hooks/useHabits";
 import { useHabitLogs } from "@/hooks/useHabitLogs";
 import { useMood } from "@/hooks/useMood";
 import { toDateKey } from "@/lib/constants/date";
-import AppIcon from "@/components/shared/AppIcon";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const MOODS = ["mood-1", "mood-2", "mood-3", "mood-4", "mood-5"];
+const MOODS = [
+  { key: "mood-1", icon: "😄", label: "سعيد" },
+  { key: "mood-2", icon: "🙂", label: "مبسوط" },
+  { key: "mood-3", icon: "😐", label: "عادي" },
+  { key: "mood-4", icon: "😕", label: "مكتئب" },
+  { key: "mood-5", icon: "😔", label: "حزين" },
+];
 
 export default function HabitsGrid() {
   const today = new Date();
@@ -46,9 +50,9 @@ export default function HabitsGrid() {
               )
             }
             aria-label="الشهر السابق"
-            className="rounded-full p-1.5 text-app-text-2 hover:bg-app-surface-2"
+            className="rounded-full px-2 py-1 text-lg text-app-text-2 hover:bg-app-surface-2"
           >
-            <ChevronRight size={16} />
+            ‹
           </button>
           <span className="text-xs font-bold text-app-text">{monthTitle}</span>
           <button
@@ -59,16 +63,16 @@ export default function HabitsGrid() {
               )
             }
             aria-label="الشهر التالي"
-            className="rounded-full p-1.5 text-app-text-2 hover:bg-app-surface-2"
+            className="rounded-full px-2 py-1 text-lg text-app-text-2 hover:bg-app-surface-2"
           >
-            <ChevronLeft size={16} />
+            ›
           </button>
         </div>
         <div className="mb-2 flex items-center gap-1 border-b border-app-border pb-2">
-          <span className="sticky right-0 z-20 w-20 shrink-0 bg-app-surface text-[10px] font-bold text-app-text-2">
+          <span className="sticky right-0 z-30 w-20 shrink-0 border-l border-app-border bg-app-surface px-1 text-center text-[10px] font-bold text-app-text-2 shadow-[4px_0_10px_rgba(0,0,0,0.04)]">
             الأيام
           </span>
-          <div className="flex gap-1">
+          <div className="flex min-w-max gap-1">
             {monthDays.map((date) => {
               const isToday = toDateKey(date) === todayKey;
               return (
@@ -84,10 +88,10 @@ export default function HabitsGrid() {
         </div>
         {habits.map((habit) => (
           <div key={habit.id} className="mb-1 flex items-center gap-1">
-            <span className="sticky right-0 z-20 w-20 shrink-0 truncate bg-app-surface text-xs font-semibold text-app-text">
+            <span className="sticky right-0 z-20 w-20 shrink-0 truncate border-l border-app-border bg-app-surface px-1 py-1 text-xs font-semibold text-app-text shadow-[4px_0_10px_rgba(0,0,0,0.04)]">
               {habit.name}
             </span>
-            <div className="flex gap-1">
+            <div className="flex min-w-max gap-1">
               {monthDays.map((d) => {
                 const key = toDateKey(d);
                 const done = isDone(habit.id, d);
@@ -99,7 +103,7 @@ export default function HabitsGrid() {
                       onClick={() => toggleDay(habit.id, d)}
                       className={`h-6 w-6 shrink-0 rounded-md ${
                         done ? "bg-app-primary" : "bg-app-surface-2"
-                      } ${isToday ? "sticky right-20 z-10 bg-app-gold ring-2 ring-app-gold ring-offset-1" : ""}`}
+                      } ${isToday ? "bg-app-gold ring-2 ring-app-gold ring-offset-1" : ""}`}
                     />
                   </div>
                 );
@@ -123,10 +127,10 @@ function MoodRow({
 }) {
   return (
     <div className="mt-2 flex items-center gap-1 border-t border-app-border pt-2">
-      <span className="sticky right-0 z-20 w-20 shrink-0 bg-app-surface text-xs font-semibold text-app-text">
+      <span className="sticky right-0 z-20 w-20 shrink-0 border-l border-app-border bg-app-surface px-1 py-1 text-xs font-semibold text-app-text shadow-[4px_0_10px_rgba(0,0,0,0.04)]">
         مزاج
       </span>
-      <div className="flex gap-1">
+      <div className="flex min-w-max gap-1">
         {monthDays.map((d) => (
           <MoodCell
             key={toDateKey(d)}
@@ -152,23 +156,32 @@ function MoodCell({ date, isToday }: { date: Date; isToday: boolean }) {
           isToday ? "ring-2 ring-app-gold" : ""
         }`}
       >
-        {mood ? <AppIcon name={MOODS[mood.mood - 1]} size={14} /> : null}
+        {mood ? <span>{MOODS[mood.mood - 1].icon}</span> : null}
       </button>
       {isPickerOpen && (
-        <div className="absolute bottom-full z-10 mb-1 flex gap-0.5 rounded-card-sm border border-app-border bg-app-surface p-1 shadow-card">
-          {MOODS.map((emoji, i) => (
-            <button
-              key={emoji}
-              type="button"
-              onClick={() => {
-                setMood(i + 1);
-                setIsPickerOpen(false);
-              }}
-              className="text-sm"
-            >
-              <AppIcon name={emoji} size={16} />
-            </button>
-          ))}
+        <div className="absolute bottom-full z-20 mb-2 flex items-center gap-1 rounded-card-md border border-app-border bg-app-surface p-1.5 shadow-card">
+          {MOODS.map((option, i) => {
+            const selected = mood?.mood === i + 1;
+            return (
+              <button
+                key={option.key}
+                type="button"
+                onClick={() => {
+                  setMood(i + 1);
+                  setIsPickerOpen(false);
+                }}
+                className={`flex h-8 w-8 items-center justify-center rounded-full border text-lg transition-all ${
+                  selected
+                    ? "border-app-gold bg-app-gold-soft shadow-sm"
+                    : "border-transparent bg-app-surface-2 hover:border-app-border"
+                }`}
+                aria-label={`اختيار المزاج ${option.label}`}
+                title={option.label}
+              >
+                {option.icon}
+              </button>
+            );
+          })}
         </div>
       )}
     </div>

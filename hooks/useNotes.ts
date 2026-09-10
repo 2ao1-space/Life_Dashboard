@@ -47,6 +47,16 @@ export function useNotes() {
     notesRepository.update(note.id, { is_pinned: !note.is_pinned });
   };
 
+  const toggleTodoItem = (noteId: string, itemId: string) => {
+    const note = notes?.find((entry) => entry.id === noteId);
+    if (!note || !note.todo_items) return;
+
+    const nextItems = note.todo_items.map((item) =>
+      item.id === itemId ? { ...item, done: !item.done } : item,
+    );
+    notesRepository.update(noteId, { todo_items: nextItems });
+  };
+
   const removeNote = (id: string) => {
     notesRepository.remove(id);
   };
@@ -56,6 +66,7 @@ export function useNotes() {
     addNote,
     updateNote,
     togglePin,
+    toggleTodoItem,
     removeNote,
     isLoading: notes === undefined,
   };

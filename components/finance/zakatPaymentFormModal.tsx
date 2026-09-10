@@ -22,9 +22,9 @@ export default function ZakatPaymentFormModal({
   editing,
 }: ZakatPaymentFormModalProps) {
   const { addPayment, updatePayment } = useZakat();
-  const { accounts } = useAccounts();
+  const { accounts, defaultAccountId } = useAccounts();
 
-  const [accountId, setAccountId] = useState(editing?.account_id ?? "");
+  const [accountId, setAccountId] = useState(editing?.account_id ?? defaultAccountId ?? "");
   const [amount, setAmount] = useState(editing ? String(editing.amount) : "");
   const [paidAt, setPaidAt] = useState(
     editing ? toDateKey(new Date(editing.paid_at)) : toDateKey(new Date()),
@@ -32,7 +32,7 @@ export default function ZakatPaymentFormModal({
   const [note, setNote] = useState(editing?.note ?? "");
   const [isSaving, setIsSaving] = useState(false);
 
-  const effectiveAccountId = accountId || accounts[0]?.id || "";
+  const effectiveAccountId = accountId || defaultAccountId || accounts[0]?.id || "";
   const numericAmount = parseFloat(amount);
   const isValid = numericAmount > 0 && Boolean(effectiveAccountId);
 

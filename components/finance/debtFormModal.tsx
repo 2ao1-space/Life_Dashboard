@@ -29,16 +29,13 @@ export default function DebtFormModal({
   const [totalAmount, setTotalAmount] = useState(
     editing ? String(editing.total_amount) : "",
   );
-  const [accountId, setAccountId] = useState(
-    editing?.account_id ?? accounts[0]?.id ?? "",
-  );
+  const [accountId, setAccountId] = useState(editing?.account_id ?? "");
   const [note, setNote] = useState(editing?.note ?? "");
   const [isSaving, setIsSaving] = useState(false);
   const selectedAccount = accounts.find((account) => account.id === accountId);
 
   const numericTotal = parseFloat(totalAmount);
-  const isValid =
-    Boolean(personName.trim()) && numericTotal > 0 && Boolean(accountId);
+  const isValid = Boolean(personName.trim()) && numericTotal > 0;
   const canEditTotal = !editing || editing.paid_amount === 0;
 
   const handleSave = () => {
@@ -56,7 +53,7 @@ export default function DebtFormModal({
         direction,
         person_name: personName.trim(),
         total_amount: numericTotal,
-        account_id: accountId,
+        account_id: accountId || null,
         note: note.trim() || null,
       });
     }
@@ -113,6 +110,7 @@ export default function DebtFormModal({
               onChange={(e) => setAccountId(e.target.value)}
               className="w-full rounded-card-sm border border-app-border bg-app-bg py-2.5 pe-10 ps-3 text-sm text-app-text outline-none focus:border-app-primary"
             >
+              <option value="">بدون حساب</option>
               {accounts.map((a) => (
                 <option key={a.id} value={a.id}>
                   {a.name}

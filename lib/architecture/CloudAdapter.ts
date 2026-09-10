@@ -5,6 +5,8 @@ export class CloudAdapter<T extends BaseEntity> {
   constructor(private tableName: string) {}
 
   async upsert(entity: T): Promise<void> {
+    if (!supabase) return;
+
     const payload: Record<string, unknown> = { ...entity } as unknown as Record<
       string,
       unknown
@@ -18,11 +20,15 @@ export class CloudAdapter<T extends BaseEntity> {
   }
 
   async remove(id: string): Promise<void> {
+    if (!supabase) return;
+
     const { error } = await supabase.from(this.tableName).delete().eq("id", id);
     if (error) throw error;
   }
 
   async fetchAll(userId: string): Promise<T[]> {
+    if (!supabase) return [];
+
     const { data, error } = await supabase
       .from(this.tableName)
       .select("*")

@@ -53,7 +53,7 @@ function toMinutes(value: string) {
 
 export default function DashboardView() {
   const router = useRouter();
-  const { profile } = useProfile();
+  useProfile();
   const { totalBalance } = useFinanceSummary();
   const { transactions } = useTransactions();
   const { day } = usePrayerDay();

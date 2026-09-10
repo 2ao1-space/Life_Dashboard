@@ -5,6 +5,7 @@ import { useUserId } from "@/lib/context/UserContext";
 import { db } from "@/lib/architecture/db";
 import { debtsRepository } from "@/lib/repositories/debtsRepository";
 import {
+  applyDebtCreationEffectLocally,
   applyDebtPaymentDeltaLocally,
   reverseDebtEffectLocally,
 } from "@/lib/architecture/LocalDebtBalanceSync";
@@ -14,7 +15,7 @@ interface CreateDebtInput {
   direction: DebtDirection;
   person_name: string;
   total_amount: number;
-  account_id: string;
+  account_id?: string | null;
   note?: string | null;
 }
 
@@ -27,16 +28,18 @@ export function useDebts(direction?: DebtDirection) {
     return direction ? all.filter((d) => d.direction === direction) : all;
   }, [userId, direction]);
 
-  const addDebt = (input: CreateDebtInput) => {
+  const addDebt = async (input: CreateDebtInput) => {
     if (!userId) return;
-    debtsRepository.create(userId, {
+    const payload = {
       direction: input.direction,
       person_name: input.person_name,
       total_amount: input.total_amount,
       paid_amount: 0,
-      account_id: input.account_id,
+      account_id: input.account_id ?? null,
       note: input.note ?? null,
-    });
+    };
+    debtsRepository.create(userId, payload);
+    await applyDebtCreationEffectLocally(payload);
   };
 
   const updateDebtInfo = (

@@ -32,20 +32,20 @@ export default function TransactionFormModal({
   editing,
   defaultAccountId,
 }: TransactionFormModalProps) {
-  const { accounts } = useAccounts();
+  const { accounts, defaultAccountId: fallbackAccountId } = useAccounts();
   const { addTransaction, updateTransaction } = useTransactions();
   const { addReason } = useTransactionReasons();
 
   const [type, setType] = useState<TransactionType>(editing?.type ?? "expense");
-  const [accountId, setAccountId] = useState(
-    editing?.account_id ?? defaultAccountId ?? "",
-  );
+  const defaultSelectedAccountId =
+    editing?.account_id ?? defaultAccountId ?? fallbackAccountId ?? "";
+  const [accountId, setAccountId] = useState(defaultSelectedAccountId);
   const [toAccountId, setToAccountId] = useState(editing?.to_account_id ?? "");
   const [amount, setAmount] = useState(editing ? String(editing.amount) : "");
   const [reason, setReason] = useState(editing?.reason ?? "");
   const [isSaving, setIsSaving] = useState(false);
 
-  const effectiveAccountId = accountId || accounts[0]?.id || "";
+  const effectiveAccountId = accountId || fallbackAccountId || accounts[0]?.id || "";
   const selectedAccount = accounts.find(
     (account) => account.id === effectiveAccountId,
   );

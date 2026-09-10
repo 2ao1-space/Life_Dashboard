@@ -19,7 +19,8 @@ const ICON_OPTIONS = [
 ];
 
 export default function AccountsSection() {
-  const { accounts, addAccount, updateAccount, removeAccount } = useAccounts();
+  const { accounts, addAccount, updateAccount, removeAccount, setDefaultAccount } =
+    useAccounts();
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editing, setEditing] = useState<AccountEntity | null>(null);
@@ -66,14 +67,27 @@ export default function AccountsSection() {
               {account.name}
             </span>
             {account.is_default ? (
-              <span className="rounded-full bg-app-gold-soft px-2.5 py-1 text-[10.5px] font-bold text-app-gold">
+              <button
+                type="button"
+                onClick={() => setDefaultAccount(account.id)}
+                className="rounded-full bg-app-gold-soft px-2.5 py-1 text-[10.5px] font-bold text-app-gold"
+              >
                 أساسي
-              </span>
+              </button>
             ) : (
-              <EntityActions
-                onEdit={() => openEdit(account)}
-                onDelete={() => setDeletingId(account.id)}
-              />
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => setDefaultAccount(account.id)}
+                  className="rounded-full bg-app-primary-soft px-2.5 py-1 text-[10.5px] font-bold text-app-primary-soft-text"
+                >
+                  افتراضي
+                </button>
+                <EntityActions
+                  onEdit={() => openEdit(account)}
+                  onDelete={() => setDeletingId(account.id)}
+                />
+              </div>
             )}
           </div>
         ))}

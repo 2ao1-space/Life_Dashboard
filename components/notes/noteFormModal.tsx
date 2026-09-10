@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "@/components/shared/Modal";
 import Field from "@/components/shared/Field";
 import Button from "@/components/shared/Button";
@@ -30,26 +30,95 @@ export default function NoteFormModal({
   initialType,
 }: NoteFormModalProps) {
   const { addNote, updateNote } = useNotes();
+  const draftKey = editing
+    ? `hayati-note-draft-${editing.id}`
+    : "hayati-note-draft-new";
+
+  const readSavedDraft = () => {
+    if (typeof window === "undefined") return null;
+
+    try {
+      const saved = localStorage.getItem(draftKey);
+      if (!saved) return null;
+      return JSON.parse(saved) as {
+        type?: NoteType;
+        title?: string;
+        body?: string;
+        todo_items?: TodoItem[];
+        image_data?: string;
+        caption?: string;
+        drawing_data?: string;
+      };
+    } catch {
+      localStorage.removeItem(draftKey);
+      return null;
+    }
+  };
+
+  const savedDraft = readSavedDraft();
 
   const [type, setType] = useState<NoteType>(
-    editing?.type ?? initialType ?? "text",
+    savedDraft?.type ?? editing?.type ?? initialType ?? "text",
   );
-  const [title, setTitle] = useState(editing?.title ?? "");
-  const [body, setBody] = useState(editing?.body ?? "");
+  const [title, setTitle] = useState(savedDraft?.title ?? editing?.title ?? "");
+  const [body, setBody] = useState(savedDraft?.body ?? editing?.body ?? "");
   const [todoItems, setTodoItems] = useState<TodoItem[]>(
-    editing?.todo_items ?? [],
+    savedDraft?.todo_items ?? editing?.todo_items ?? [],
   );
   const [newTodoText, setNewTodoText] = useState("");
-  const [imageData, setImageData] = useState(editing?.image_data ?? "");
-  const [caption, setCaption] = useState(editing?.caption ?? "");
-  const [drawingData, setDrawingData] = useState(editing?.drawing_data ?? "");
+  const [imageData, setImageData] = useState(
+    savedDraft?.image_data ?? editing?.image_data ?? "",
+  );
+  const [caption, setCaption] = useState(
+    savedDraft?.caption ?? editing?.caption ?? "",
+  );
+  const [drawingData, setDrawingData] = useState(
+    savedDraft?.drawing_data ?? editing?.drawing_data ?? "",
+  );
+
+  const saveDraft = (nextState?: {
+    type?: NoteType;
+    title?: string;
+    body?: string;
+    todoItems?: TodoItem[];
+    imageData?: string;
+    caption?: string;
+    drawingData?: string;
+  }) => {
+    if (typeof window === "undefined") return;
+    const payload = {
+      type: nextState?.type ?? type,
+      title: nextState?.title ?? title,
+      body: nextState?.body ?? body,
+      todo_items: nextState?.todoItems ?? todoItems,
+      image_data: nextState?.imageData ?? imageData,
+      caption: nextState?.caption ?? caption,
+      drawing_data: nextState?.drawingData ?? drawingData,
+    };
+
+    if (
+      payload.title.trim() ||
+      payload.body?.trim() ||
+      payload.todo_items?.length ||
+      payload.image_data ||
+      payload.caption?.trim() ||
+      payload.drawing_data
+    ) {
+      localStorage.setItem(draftKey, JSON.stringify(payload));
+      return;
+    }
+
+    localStorage.removeItem(draftKey);
+  };
 
   const addTodoItem = () => {
     if (!newTodoText.trim()) return;
-    setTodoItems([
+    const nextItems = [
       ...todoItems,
       { id: crypto.randomUUID(), text: newTodoText.trim(), done: false },
-    ]);
+    ];
+    setTodoItems(nextItems);
+    saveDraft({ todoItems: nextItems });
     setNewTodoText("");
   };
 
@@ -57,11 +126,35 @@ export default function NoteFormModal({
     const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = () => setImageData(reader.result as string);
+    reader.onload = () => {
+      const nextImageData = reader.result as string;
+      setImageData(nextImageData);
+      saveDraft({ imageData: nextImageData });
+    };
     reader.readAsDataURL(file);
   };
 
   const isValid = title.trim().length > 0;
+
+  useEffect(() => {
+    const persistOnClose = () => saveDraft();
+    const handleVisibility = () => {
+      if (document.visibilityState === "hidden") saveDraft();
+    };
+
+    window.addEventListener("beforeunload", persistOnClose);
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    return () => {
+      window.removeEventListener("beforeunload", persistOnClose);
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
+  }, [type, title, body, todoItems, imageData, caption, drawingData]);
+
+  const closeForm = () => {
+    saveDraft();
+    onClose();
+  };
 
   const handleSave = () => {
     if (!isValid) return;
@@ -79,13 +172,14 @@ export default function NoteFormModal({
     } else {
       addNote(payload);
     }
+    localStorage.removeItem(draftKey);
     onClose();
   };
 
   return (
     <Modal
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={closeForm}
       title={editing ? "تعديل الملاحظة" : "ملاحظة جديدة"}
       size="md"
     >
@@ -95,7 +189,10 @@ export default function NoteFormModal({
             <button
               key={opt.value}
               type="button"
-              onClick={() => setType(opt.value)}
+              onClick={() => {
+                setType(opt.value);
+                saveDraft({ type: opt.value });
+              }}
               className={`flex flex-col items-center gap-1 rounded-card-sm border py-2.5 text-[11px] font-semibold ${
                 type === opt.value
                   ? "border-app-primary bg-app-primary-soft text-app-primary-soft-text"
@@ -112,7 +209,10 @@ export default function NoteFormModal({
       <Field
         label="العنوان"
         value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        onChange={(e) => {
+          setTitle(e.target.value);
+          saveDraft({ title: e.target.value });
+        }}
         placeholder="عنوان الملاحظة"
       />
 
@@ -123,7 +223,10 @@ export default function NoteFormModal({
           </label>
           <textarea
             value={body}
-            onChange={(e) => setBody(e.target.value)}
+            onChange={(e) => {
+              setBody(e.target.value);
+              saveDraft({ body: e.target.value });
+            }}
             rows={5}
             dir="rtl"
             className="w-full rounded-card-sm border border-app-border bg-app-bg px-3 py-2.5 text-sm text-app-text outline-none focus:border-app-primary"
@@ -140,13 +243,13 @@ export default function NoteFormModal({
             <div key={item.id} className="mb-1.5 flex items-center gap-2">
               <button
                 type="button"
-                onClick={() =>
-                  setTodoItems(
-                    todoItems.map((t) =>
-                      t.id === item.id ? { ...t, done: !t.done } : t,
-                    ),
-                  )
-                }
+                onClick={() => {
+                  const nextItems = todoItems.map((t) =>
+                    t.id === item.id ? { ...t, done: !t.done } : t,
+                  );
+                  setTodoItems(nextItems);
+                  saveDraft({ todoItems: nextItems });
+                }}
                 className={`h-4 w-4 shrink-0 rounded border-2 ${
                   item.done
                     ? "border-app-primary bg-app-primary"
@@ -160,9 +263,11 @@ export default function NoteFormModal({
               </span>
               <button
                 type="button"
-                onClick={() =>
-                  setTodoItems(todoItems.filter((t) => t.id !== item.id))
-                }
+                onClick={() => {
+                  const nextItems = todoItems.filter((t) => t.id !== item.id);
+                  setTodoItems(nextItems);
+                  saveDraft({ todoItems: nextItems });
+                }}
                 className="text-xs text-app-danger"
               >
                 ×

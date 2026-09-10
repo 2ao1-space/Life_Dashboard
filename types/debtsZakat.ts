@@ -7,7 +7,7 @@ export interface DebtEntity extends BaseEntity {
   person_name: string;
   total_amount: number;
   paid_amount: number;
-  account_id: string;
+  account_id: string | null;
   note: string | null;
 }
 

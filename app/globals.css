@@ -70,14 +70,29 @@
 
 html {
   direction: rtl;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
 }
 
 body {
   background: var(--bg);
   color: var(--text);
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
   transition:
     background 0.25s ease,
     color 0.25s ease;
+}
+
+button,
+input,
+textarea,
+select {
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .onboarding-shell {

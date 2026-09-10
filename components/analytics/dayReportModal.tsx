@@ -2,6 +2,7 @@
 
 import Modal from "@/components/shared/Modal";
 import { useTransactions } from "@/hooks/useTransactions";
+import { useDebts } from "@/hooks/useDebts";
 import { usePrayerDay } from "@/hooks/usePrayerDay";
 import { useHabits } from "@/hooks/useHabits";
 import { useHabitLogs } from "@/hooks/useHabitLogs";
@@ -38,6 +39,7 @@ export default function DayReportModal({ date, onClose }: DayReportModalProps) {
   const dateKey = toDateKey(safeDate);
 
   const { transactions } = useTransactions();
+  const { debts } = useDebts();
   const { day: prayerDay, update: updatePrayer } = usePrayerDay(safeDate);
   const { habits } = useHabits();
   const { isDone } = useHabitLogs(safeDate);
@@ -48,12 +50,72 @@ export default function DayReportModal({ date, onClose }: DayReportModalProps) {
   const dayTransactions = transactions.filter(
     (t) => toDateKey(new Date(t.occurred_at)) === dateKey,
   );
-  const income = dayTransactions
-    .filter((t) => t.type === "income" || t.type === "salary")
-    .reduce((sum, t) => sum + t.amount, 0);
-  const expense = dayTransactions
-    .filter((t) => t.type === "expense")
-    .reduce((sum, t) => sum + t.amount, 0);
+  const dayDebts = debts.filter(
+    (debt) => toDateKey(new Date(debt.updated_at)) === dateKey,
+  );
+  const debtIncome = dayDebts
+    .filter((debt) => debt.direction === "owed_by_me")
+    .reduce((sum, debt) => sum + debt.total_amount, 0);
+  const debtExpense = dayDebts
+    .filter((debt) => debt.direction === "owed_to_me")
+    .reduce((sum, debt) => sum + debt.total_amount, 0);
+  const income =
+    dayTransactions
+      .filter((t) => t.type === "income" || t.type === "salary")
+      .reduce((sum, t) => sum + t.amount, 0) + debtIncome;
+  const expense =
+    dayTransactions
+      .filter((t) => t.type === "expense")
+      .reduce((sum, t) => sum + t.amount, 0) + debtExpense;
+  const expenseBreakdown = Array.from(
+    dayTransactions
+      .filter((t) => t.type === "expense")
+      .reduce((map, t) => {
+        const key = t.reason || "أخرى";
+        map.set(key, (map.get(key) ?? 0) + t.amount);
+        return map;
+      }, new Map<string, number>())
+      .entries(),
+  ).sort((a, b) => b[1] - a[1]);
+
+  const incomeBreakdown = Array.from(
+    dayTransactions
+      .filter((t) => t.type === "income" || t.type === "salary")
+      .reduce((map, t) => {
+        const key = t.reason || "أخرى";
+        map.set(key, (map.get(key) ?? 0) + t.amount);
+        return map;
+      }, new Map<string, number>())
+      .entries(),
+  ).sort((a, b) => b[1] - a[1]);
+
+  const dayEntries = [
+    ...dayTransactions.map((transaction) => ({
+      id: transaction.id,
+      kind: "transaction" as const,
+      title: transaction.reason || "معاملة",
+      amount:
+        transaction.type === "expense"
+          ? -transaction.amount
+          : transaction.amount,
+      type: transaction.type === "expense" ? "expense" : "income",
+      at: new Date(transaction.occurred_at),
+    })),
+    ...dayDebts.map((debt) => ({
+      id: debt.id,
+      kind: "debt" as const,
+      title:
+        debt.direction === "owed_by_me"
+          ? `دين عليّ — ${debt.person_name}`
+          : `سلفة — ${debt.person_name}`,
+      amount:
+        debt.direction === "owed_by_me"
+          ? debt.total_amount
+          : -debt.total_amount,
+      type: debt.direction === "owed_by_me" ? "income" : "expense",
+      at: new Date(debt.updated_at),
+    })),
+  ].sort((a, b) => b.at.getTime() - a.at.getTime());
 
   const cyclePrayerFix = (key: (typeof FARD_KEYS)[number]) => {
     const current = prayerDay?.[key];
@@ -79,6 +141,95 @@ export default function DayReportModal({ date, onClose }: DayReportModalProps) {
             دخل +{income.toLocaleString("ar-EG")} · مصروف -
             {expense.toLocaleString("ar-EG")}
           </p>
+        </div>
+
+        {(expenseBreakdown.length > 0 || incomeBreakdown.length > 0) && (
+          <div className="rounded-card-md bg-app-surface-2 p-3">
+            <p className="mb-2 text-xs font-bold text-app-text-2">
+              تفاصيل اليوم
+            </p>
+            <div className="space-y-3">
+              {incomeBreakdown.length > 0 && (
+                <div>
+                  <p className="mb-1 text-[10px] font-bold text-app-primary">
+                    الدخل
+                  </p>
+                  <div className="space-y-1">
+                    {incomeBreakdown.map(([label, amount]) => (
+                      <div
+                        key={label}
+                        className="flex items-center justify-between gap-2 text-xs text-app-text"
+                      >
+                        <span className="min-w-0 flex-1 truncate">{label}</span>
+                        <span className="font-bold text-app-primary">
+                          +{amount.toLocaleString("ar-EG")}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {expenseBreakdown.length > 0 && (
+                <div>
+                  <p className="mb-1 text-[10px] font-bold text-app-danger">
+                    المصروفات
+                  </p>
+                  <div className="space-y-1">
+                    {expenseBreakdown.map(([label, amount]) => (
+                      <div
+                        key={label}
+                        className="flex items-center justify-between gap-2 text-xs text-app-text"
+                      >
+                        <span className="min-w-0 flex-1 truncate">{label}</span>
+                        <span className="font-bold text-app-danger">
+                          -{amount.toLocaleString("ar-EG")}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        <div className="rounded-card-md bg-app-surface-2 p-3">
+          <p className="mb-2 text-xs font-bold text-app-text-2">المعاملات</p>
+          {dayEntries.length === 0 ? (
+            <p className="text-sm text-app-text-2">
+              لا توجد معاملات في هذا اليوم
+            </p>
+          ) : (
+            <div className="space-y-2">
+              {dayEntries.map((entry) => (
+                <div
+                  key={`${entry.kind}-${entry.id}`}
+                  className="flex items-center justify-between gap-2 border-b border-app-border pb-2 last:border-none last:pb-0"
+                >
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-semibold text-app-text">
+                      {entry.title}
+                    </p>
+                    <p className="text-[10px] text-app-text-2">
+                      {entry.at.toLocaleTimeString("ar-EG", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </p>
+                  </div>
+                  <span
+                    className={`text-sm font-bold ${
+                      entry.amount >= 0 ? "text-app-primary" : "text-app-danger"
+                    }`}
+                  >
+                    {entry.amount >= 0 ? "+" : "-"}
+                    {Math.abs(entry.amount).toLocaleString("ar-EG")}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {prayerDay && (
