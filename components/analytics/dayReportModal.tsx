@@ -53,20 +53,25 @@ export default function DayReportModal({ date, onClose }: DayReportModalProps) {
   const dayDebts = debts.filter(
     (debt) => toDateKey(new Date(debt.updated_at)) === dateKey,
   );
-  const debtIncome = dayDebts
-    .filter((debt) => debt.direction === "owed_by_me")
-    .reduce((sum, debt) => sum + debt.total_amount, 0);
-  const debtExpense = dayDebts
-    .filter((debt) => debt.direction === "owed_to_me")
-    .reduce((sum, debt) => sum + debt.total_amount, 0);
+
   const income =
     dayTransactions
       .filter((t) => t.type === "income" || t.type === "salary")
-      .reduce((sum, t) => sum + t.amount, 0) + debtIncome;
+      .reduce((sum, t) => sum + t.amount, 0) +
+    dayDebts
+      .filter((debt) => debt.direction === "owed_by_me")
+      .reduce((sum, debt) => sum + debt.total_amount, 0);
+
   const expense =
     dayTransactions
       .filter((t) => t.type === "expense")
-      .reduce((sum, t) => sum + t.amount, 0) + debtExpense;
+      .reduce((sum, t) => sum + t.amount, 0) +
+    dayDebts
+      .filter((debt) => debt.direction === "owed_to_me")
+      .reduce((sum, debt) => sum + debt.total_amount, 0);
+
+  const net = income - expense;
+
   const expenseBreakdown = Array.from(
     dayTransactions
       .filter((t) => t.type === "expense")
@@ -132,29 +137,111 @@ export default function DayReportModal({ date, onClose }: DayReportModalProps) {
         day: "numeric",
         month: "long",
       })}
-      size="md"
+      size="lg"
     >
-      <div className="space-y-3">
-        <div className="rounded-card-md bg-app-surface-2 p-3">
-          <p className="mb-1 text-xs font-bold text-app-text-2">الماليات</p>
-          <p className="text-sm text-app-text">
-            دخل +{income.toLocaleString("ar-EG")} · مصروف -
-            {expense.toLocaleString("ar-EG")}
-          </p>
+      <div className="space-y-4">
+        <div className="rounded-[24px] border border-app-border bg-gradient-to-br from-app-surface-2 via-app-surface to-app-surface-2 p-4">
+          <div className="flex items-start justify-between gap-2">
+            <div>
+              <p className="text-[10px] font-bold tracking-[0.2em] text-app-text-2 uppercase">
+                receipt
+              </p>
+              <h3 className="mt-1 text-lg font-black text-app-text">
+                إيصال اليوم
+              </h3>
+            </div>
+            <span
+              className={`rounded-full px-2.5 py-1 text-[10px] font-bold ${
+                net >= 0
+                  ? "bg-app-primary-soft text-app-primary-soft-text"
+                  : "bg-app-danger-soft text-app-danger"
+              }`}
+            >
+              {net >= 0 ? "مكسب" : "مصروف"}
+            </span>
+          </div>
+
+          <div className="mt-4 grid grid-cols-2 gap-2 text-sm">
+            <div className="rounded-card-sm bg-app-surface p-2.5">
+              <p className="text-[10px] font-bold text-app-text-2">الدخل</p>
+              <p className="mt-1 font-black text-app-primary">
+                +{income.toLocaleString("ar-EG")}
+              </p>
+            </div>
+            <div className="rounded-card-sm bg-app-surface p-2.5">
+              <p className="text-[10px] font-bold text-app-text-2">المصروف</p>
+              <p className="mt-1 font-black text-app-danger">
+                -{expense.toLocaleString("ar-EG")}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-3 flex items-center justify-between border-t border-app-border pt-3 text-sm">
+            <span className="text-app-text-2">صافي اليوم</span>
+            <span
+              className={`font-black ${net >= 0 ? "text-app-primary" : "text-app-danger"}`}
+            >
+              {net >= 0 ? "+" : "-"}
+              {Math.abs(net).toLocaleString("ar-EG")}
+            </span>
+          </div>
+        </div>
+
+        <div className="rounded-[24px] border border-app-border bg-app-surface-2 p-4">
+          <div className="mb-3 flex items-center justify-between">
+            <p className="text-xs font-bold text-app-text-2">
+              تفاصيل المعاملات
+            </p>
+            <span className="rounded-full bg-app-surface px-2 py-1 text-[10px] font-bold text-app-text-2">
+              {dayEntries.length} عنصر
+            </span>
+          </div>
+
+          {dayEntries.length === 0 ? (
+            <p className="text-sm text-app-text-2">
+              لا توجد معاملات في هذا اليوم
+            </p>
+          ) : (
+            <div className="space-y-2">
+              {dayEntries.map((entry) => (
+                <div
+                  key={`${entry.kind}-${entry.id}`}
+                  className="flex items-center justify-between gap-3 rounded-card-sm border border-app-border bg-app-surface px-3 py-2"
+                >
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-bold text-app-text">
+                      {entry.title}
+                    </p>
+                    <p className="text-[10px] text-app-text-2">
+                      {entry.at.toLocaleTimeString("ar-EG", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </p>
+                  </div>
+                  <span
+                    className={`text-sm font-black ${
+                      entry.amount >= 0 ? "text-app-primary" : "text-app-danger"
+                    }`}
+                  >
+                    {entry.amount >= 0 ? "+" : "-"}
+                    {Math.abs(entry.amount).toLocaleString("ar-EG")}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {(expenseBreakdown.length > 0 || incomeBreakdown.length > 0) && (
-          <div className="rounded-card-md bg-app-surface-2 p-3">
-            <p className="mb-2 text-xs font-bold text-app-text-2">
-              تفاصيل اليوم
-            </p>
+          <div className="rounded-[24px] border border-app-border bg-app-surface-2 p-4">
             <div className="space-y-3">
               {incomeBreakdown.length > 0 && (
                 <div>
-                  <p className="mb-1 text-[10px] font-bold text-app-primary">
+                  <p className="mb-2 text-[10px] font-bold text-app-primary">
                     الدخل
                   </p>
-                  <div className="space-y-1">
+                  <div className="space-y-1.5">
                     {incomeBreakdown.map(([label, amount]) => (
                       <div
                         key={label}
@@ -172,10 +259,10 @@ export default function DayReportModal({ date, onClose }: DayReportModalProps) {
 
               {expenseBreakdown.length > 0 && (
                 <div>
-                  <p className="mb-1 text-[10px] font-bold text-app-danger">
+                  <p className="mb-2 text-[10px] font-bold text-app-danger">
                     المصروفات
                   </p>
-                  <div className="space-y-1">
+                  <div className="space-y-1.5">
                     {expenseBreakdown.map(([label, amount]) => (
                       <div
                         key={label}
@@ -193,44 +280,6 @@ export default function DayReportModal({ date, onClose }: DayReportModalProps) {
             </div>
           </div>
         )}
-
-        <div className="rounded-card-md bg-app-surface-2 p-3">
-          <p className="mb-2 text-xs font-bold text-app-text-2">المعاملات</p>
-          {dayEntries.length === 0 ? (
-            <p className="text-sm text-app-text-2">
-              لا توجد معاملات في هذا اليوم
-            </p>
-          ) : (
-            <div className="space-y-2">
-              {dayEntries.map((entry) => (
-                <div
-                  key={`${entry.kind}-${entry.id}`}
-                  className="flex items-center justify-between gap-2 border-b border-app-border pb-2 last:border-none last:pb-0"
-                >
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-semibold text-app-text">
-                      {entry.title}
-                    </p>
-                    <p className="text-[10px] text-app-text-2">
-                      {entry.at.toLocaleTimeString("ar-EG", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </p>
-                  </div>
-                  <span
-                    className={`text-sm font-bold ${
-                      entry.amount >= 0 ? "text-app-primary" : "text-app-danger"
-                    }`}
-                  >
-                    {entry.amount >= 0 ? "+" : "-"}
-                    {Math.abs(entry.amount).toLocaleString("ar-EG")}
-                  </span>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
 
         {prayerDay && (
           <div className="rounded-card-md bg-app-surface-2 p-3">
