@@ -5,7 +5,9 @@ let authReadyPromise: Promise<string> | null = null;
 function initAuth(): Promise<string> {
   if (!isSupabaseConfigured || !supabase) {
     return Promise.reject(
-      new Error("لم يتم تكوين Supabase. أضف NEXT_PUBLIC_SUPABASE_URL و NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY."),
+      new Error(
+        "لم يتم تكوين Supabase. أضف NEXT_PUBLIC_SUPABASE_URL و NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY.",
+      ),
     );
   }
 

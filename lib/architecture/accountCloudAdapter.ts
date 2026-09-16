@@ -25,9 +25,7 @@ export class AccountCloudAdapter extends CloudAdapter<AccountEntity> {
       delete payload.sync_status;
       delete payload.deleted;
       delete payload.balance;
-      const { error } = await client
-        .from("accounts")
-        .insert(payload as never);
+      const { error } = await client.from("accounts").insert(payload as never);
       if (error) throw error;
       return;
     }
