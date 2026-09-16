@@ -8,7 +8,10 @@ export class ZakatCloudAdapter extends CloudAdapter<ZakatPaymentEntity> {
   }
 
   async upsert(entity: ZakatPaymentEntity): Promise<void> {
-    const { data: existing, error: selectError } = await supabase
+    if (!supabase) return;
+
+    const client = supabase;
+    const { data: existing, error: selectError } = await client
       .from("zakat_payments")
       .select("id")
       .eq("id", entity.id)
@@ -16,7 +19,7 @@ export class ZakatCloudAdapter extends CloudAdapter<ZakatPaymentEntity> {
     if (selectError) throw selectError;
 
     if (!existing) {
-      const { error } = await supabase.rpc("create_zakat_payment", {
+      const { error } = await client.rpc("create_zakat_payment", {
         p_id: entity.id,
         p_account_id: entity.account_id,
         p_amount: entity.amount,
@@ -28,7 +31,7 @@ export class ZakatCloudAdapter extends CloudAdapter<ZakatPaymentEntity> {
       return;
     }
 
-    const { error } = await supabase
+    const { error } = await client
       .from("zakat_payments")
       .update({
         note: entity.note,
@@ -41,7 +44,10 @@ export class ZakatCloudAdapter extends CloudAdapter<ZakatPaymentEntity> {
   }
 
   async remove(id: string): Promise<void> {
-    const { error } = await supabase.rpc("delete_zakat_payment", { p_id: id });
+    if (!supabase) return;
+
+    const client = supabase;
+    const { error } = await client.rpc("delete_zakat_payment", { p_id: id });
     if (error) throw error;
   }
 }

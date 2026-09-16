@@ -9,17 +9,19 @@ function initAuth(): Promise<string> {
     );
   }
 
+  const client = supabase;
+
   if (authReadyPromise) return authReadyPromise;
 
   authReadyPromise = new Promise((resolve, reject) => {
-    const { data: subscription } = supabase.auth.onAuthStateChange(
+    const { data: subscription } = client.auth.onAuthStateChange(
       async (event, session) => {
         if (event !== "INITIAL_SESSION") return;
 
         if (session?.user) {
           resolve(session.user.id);
         } else {
-          const { data, error } = await supabase.auth.signInAnonymously();
+          const { data, error } = await client.auth.signInAnonymously();
           if (error || !data.user) {
             reject(error ?? new Error("فشل إنشاء حساب أنونيميوس"));
             return;
@@ -46,7 +48,8 @@ export async function linkGoogleAccount() {
     );
   }
 
-  const { error } = await supabase.auth.linkIdentity({
+  const client = supabase;
+  const { error } = await client.auth.linkIdentity({
     provider: "google",
   });
   if (error) throw error;
@@ -55,7 +58,8 @@ export async function linkGoogleAccount() {
 export async function checkGoogleLinked(): Promise<boolean> {
   if (!isSupabaseConfigured || !supabase) return false;
 
-  const { data, error } = await supabase.auth.getUser();
+  const client = supabase;
+  const { data, error } = await client.auth.getUser();
   if (error || !data.user) return false;
   return Boolean(
     data.user.identities?.some((identity) => identity.provider === "google"),

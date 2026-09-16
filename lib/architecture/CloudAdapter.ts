@@ -7,13 +7,14 @@ export class CloudAdapter<T extends BaseEntity> {
   async upsert(entity: T): Promise<void> {
     if (!supabase) return;
 
+    const client = supabase;
     const payload: Record<string, unknown> = { ...entity } as unknown as Record<
       string,
       unknown
     >;
     delete payload.sync_status;
     delete payload.deleted;
-    const { error } = await supabase
+    const { error } = await client
       .from(this.tableName)
       .upsert(payload as never);
     if (error) throw error;
@@ -22,14 +23,16 @@ export class CloudAdapter<T extends BaseEntity> {
   async remove(id: string): Promise<void> {
     if (!supabase) return;
 
-    const { error } = await supabase.from(this.tableName).delete().eq("id", id);
+    const client = supabase;
+    const { error } = await client.from(this.tableName).delete().eq("id", id);
     if (error) throw error;
   }
 
   async fetchAll(userId: string): Promise<T[]> {
     if (!supabase) return [];
 
-    const { data, error } = await supabase
+    const client = supabase;
+    const { data, error } = await client
       .from(this.tableName)
       .select("*")
       .eq("user_id", userId);

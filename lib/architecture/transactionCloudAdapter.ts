@@ -8,7 +8,10 @@ export class TransactionCloudAdapter extends CloudAdapter<TransactionEntity> {
   }
 
   async upsert(entity: TransactionEntity): Promise<void> {
-    const { data: existing, error: selectError } = await supabase
+    if (!supabase) return;
+
+    const client = supabase;
+    const { data: existing, error: selectError } = await client
       .from("transactions")
       .select("id")
       .eq("id", entity.id)
@@ -17,7 +20,7 @@ export class TransactionCloudAdapter extends CloudAdapter<TransactionEntity> {
     if (selectError) throw selectError;
 
     const rpcName = existing ? "update_transaction" : "create_transaction";
-    const { error } = await supabase.rpc(rpcName, {
+    const { error } = await client.rpc(rpcName, {
       p_id: entity.id,
       p_account_id: entity.account_id,
       p_to_account_id: entity.to_account_id,
@@ -30,7 +33,10 @@ export class TransactionCloudAdapter extends CloudAdapter<TransactionEntity> {
   }
 
   async remove(id: string): Promise<void> {
-    const { error } = await supabase.rpc("delete_transaction", { p_id: id });
+    if (!supabase) return;
+
+    const client = supabase;
+    const { error } = await client.rpc("delete_transaction", { p_id: id });
     if (error) throw error;
   }
 }

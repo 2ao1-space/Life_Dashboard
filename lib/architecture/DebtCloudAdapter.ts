@@ -8,7 +8,10 @@ export class DebtCloudAdapter extends CloudAdapter<DebtEntity> {
   }
 
   async upsert(entity: DebtEntity): Promise<void> {
-    const { data: existing, error: selectError } = await supabase
+    if (!supabase) return;
+
+    const client = supabase;
+    const { data: existing, error: selectError } = await client
       .from("debts")
       .select("paid_amount")
       .eq("id", entity.id)
@@ -21,20 +24,20 @@ export class DebtCloudAdapter extends CloudAdapter<DebtEntity> {
       } as unknown as Record<string, unknown>;
       delete payload.sync_status;
       delete payload.deleted;
-      const { error } = await supabase.from("debts").insert(payload as never);
+      const { error } = await client.from("debts").insert(payload as never);
       if (error) throw error;
       return;
     }
 
     if (existing.paid_amount !== entity.paid_amount) {
-      const { error } = await supabase.rpc("record_debt_payment", {
+      const { error } = await client.rpc("record_debt_payment", {
         p_debt_id: entity.id,
         p_new_paid_amount: entity.paid_amount,
       });
       if (error) throw error;
     }
 
-    const { error: updateError } = await supabase
+    const { error: updateError } = await client
       .from("debts")
       .update({
         person_name: entity.person_name,
@@ -47,7 +50,10 @@ export class DebtCloudAdapter extends CloudAdapter<DebtEntity> {
   }
 
   async remove(id: string): Promise<void> {
-    const { error } = await supabase.rpc("delete_debt", { p_debt_id: id });
+    if (!supabase) return;
+
+    const client = supabase;
+    const { error } = await client.rpc("delete_debt", { p_debt_id: id });
     if (error) throw error;
   }
 }

@@ -8,7 +8,10 @@ export class AccountCloudAdapter extends CloudAdapter<AccountEntity> {
   }
 
   async upsert(entity: AccountEntity): Promise<void> {
-    const { data: existing, error: selectError } = await supabase
+    if (!supabase) return;
+
+    const client = supabase;
+    const { data: existing, error: selectError } = await client
       .from("accounts")
       .select("id")
       .eq("id", entity.id)
@@ -22,14 +25,14 @@ export class AccountCloudAdapter extends CloudAdapter<AccountEntity> {
       delete payload.sync_status;
       delete payload.deleted;
       delete payload.balance;
-      const { error } = await supabase
+      const { error } = await client
         .from("accounts")
         .insert(payload as never);
       if (error) throw error;
       return;
     }
 
-    const { error } = await supabase
+    const { error } = await client
       .from("accounts")
       .update({
         name: entity.name,
