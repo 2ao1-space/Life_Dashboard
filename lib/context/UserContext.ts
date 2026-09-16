@@ -26,11 +26,17 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let cancelled = false;
-    getCurrentUserId().then((id) => {
-      if (cancelled) return;
-      setUserId(id);
-      setIsReady(true);
-    });
+    getCurrentUserId()
+      .then((id) => {
+        if (cancelled) return;
+        setUserId(id);
+        setIsReady(true);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setUserId(null);
+        setIsReady(true);
+      });
     return () => {
       cancelled = true;
     };

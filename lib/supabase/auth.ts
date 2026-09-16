@@ -2,39 +2,36 @@ import { isSupabaseConfigured, supabase } from "./client";
 
 let authReadyPromise: Promise<string> | null = null;
 
-function initAuth(): Promise<string> {
+function getClient() {
   if (!isSupabaseConfigured || !supabase) {
-    return Promise.reject(
-      new Error(
-        "لم يتم تكوين Supabase. أضف NEXT_PUBLIC_SUPABASE_URL و NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY.",
-      ),
+    throw new Error(
+      "لم يتم تكوين Supabase. أضف NEXT_PUBLIC_SUPABASE_URL و NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY.",
     );
   }
 
-  const client = supabase;
+  return supabase;
+}
+
+function initAuth(): Promise<string> {
+  const client = getClient();
 
   if (authReadyPromise) return authReadyPromise;
 
-  authReadyPromise = new Promise((resolve, reject) => {
-    const { data: subscription } = client.auth.onAuthStateChange(
-      async (event, session) => {
-        if (event !== "INITIAL_SESSION") return;
+  authReadyPromise = (async () => {
+    const {
+      data: { session },
+      error: sessionError,
+    } = await client.auth.getSession();
+    if (sessionError) throw sessionError;
+    if (session?.user) return session.user.id;
 
-        if (session?.user) {
-          resolve(session.user.id);
-        } else {
-          const { data, error } = await client.auth.signInAnonymously();
-          if (error || !data.user) {
-            reject(error ?? new Error("فشل إنشاء حساب أنونيميوس"));
-            return;
-          }
-          resolve(data.user.id);
-        }
+    const { data, error } = await client.auth.signInAnonymously();
+    if (error || !data.user) {
+      throw error ?? new Error("فشل إنشاء حساب أنونيميوس");
+    }
 
-        subscription.subscription.unsubscribe();
-      },
-    );
-  });
+    return data.user.id;
+  })();
 
   return authReadyPromise;
 }
@@ -43,14 +40,33 @@ export async function getCurrentUserId(): Promise<string> {
   return initAuth();
 }
 
+export async function signInWithGoogle() {
+  const client = getClient();
+  const redirectTo =
+    typeof window !== "undefined" ? window.location.origin : undefined;
+
+  const { error } = await client.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo,
+    },
+  });
+
+  if (error) throw error;
+}
+
 export async function linkGoogleAccount() {
-  if (!isSupabaseConfigured || !supabase) {
-    throw new Error(
-      "Supabase غير مكوّن. أضف NEXT_PUBLIC_SUPABASE_URL و NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY أولًا.",
-    );
+  const client = getClient();
+
+  const {
+    data: { session },
+  } = await client.auth.getSession();
+
+  if (!session) {
+    await signInWithGoogle();
+    return;
   }
 
-  const client = supabase;
   const { error } = await client.auth.linkIdentity({
     provider: "google",
   });
