@@ -117,7 +117,7 @@ export default function CalendarStrip({
               key={toDateKey(d)}
               type="button"
               onClick={() => onSelect(d)}
-              className={`relative flex h-11 w-full flex-col items-center justify-center gap-0.5 rounded-card-sm text-xs font-semibold ${
+              className={`relative flex h-11 w-full flex-col items-center justify-center gap-0.5 rounded-card-sm text-xs font-semibold ${isSelected ? "bg-white" : dotColor[statusFor(d)]} ${
                 isSelected
                   ? "bg-app-primary text-white"
                   : isCurrentMonth
@@ -134,9 +134,9 @@ export default function CalendarStrip({
               >
                 {d.getDate().toLocaleString("ar-EG")}
               </span>
-              <span
+              {/* <span
                 className={`h-1.5 w-1.5 rounded-full ${isSelected ? "bg-white" : dotColor[statusFor(d)]}`}
-              />
+              /> */}
             </button>
           );
         })}
