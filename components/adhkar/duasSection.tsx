@@ -63,7 +63,7 @@ export default function DuasSection() {
         ＋ دعاء جديد
       </button>
 
-      <div className="rounded-card-lg border border-app-border px-4 shadow-card bg-gray-200">
+      <div className="rounded-card-lg border border-app-border bg-app-surface px-4 shadow-card">
         {duas.length === 0 ? (
           <EmptyState icon="dua" title="مفيش أدعية شخصية لسه" />
         ) : (
