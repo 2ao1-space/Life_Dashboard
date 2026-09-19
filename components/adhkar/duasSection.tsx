@@ -63,7 +63,7 @@ export default function DuasSection() {
         ＋ دعاء جديد
       </button>
 
-      <div className="rounded-card-lg border border-app-border bg-app-surface px-4 shadow-card">
+      <div className="rounded-card-lg border border-app-border px-4 shadow-card bg-gray-200">
         {duas.length === 0 ? (
           <EmptyState icon="dua" title="مفيش أدعية شخصية لسه" />
         ) : (
@@ -72,28 +72,35 @@ export default function DuasSection() {
               key={d.id}
               className="flex flex-col items-start gap-3 border-b border-app-border py-3 last:border-none"
             >
-              <span
-                className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full"
-                style={{ backgroundColor: d.category_color }}
-              />
+              <div className="flex w-full items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <span
+                    className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full"
+                    style={{ backgroundColor: d.category_color }}
+                  />
+                  <p className="text-[11px] text-app-text-2">
+                    {d.category_name}
+                  </p>
+                </div>
+                <div className="flex items-center justify-between gap-2">
+                  <button
+                    type="button"
+                    onClick={() => togglePin(d)}
+                    className={`shrink-0 text-sm ${d.is_pinned ? "text-app-gold" : "text-app-text-2"}`}
+                  >
+                    <AppIcon name="pin" size={16} />
+                  </button>
+
+                  <EntityActions
+                    onEdit={() => openEdit(d)}
+                    onDelete={() => setDeletingId(d.id)}
+                  />
+                </div>
+              </div>
               <div className="min-w-0 flex-1">
-                <p className="text-[11px] text-app-text-2">{d.category_name}</p>
-                <p className="break-words text-[13.5px] font-semibold text-app-text">
+                <p className="break-words text-[13.5px] font-semibold text-app-text bg-white">
                   {d.text}
                 </p>
-              </div>
-              <div className="flex items-center justify-between gap-2">
-                <button
-                  type="button"
-                  onClick={() => togglePin(d)}
-                  className={`shrink-0 text-sm ${d.is_pinned ? "text-app-gold" : "text-app-text-2"}`}
-                >
-                  <AppIcon name="pin" size={16} />
-                </button>
-                <EntityActions
-                  onEdit={() => openEdit(d)}
-                  onDelete={() => setDeletingId(d.id)}
-                />
               </div>
             </div>
           ))

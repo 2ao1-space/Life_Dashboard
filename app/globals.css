@@ -21,7 +21,61 @@
 
   --shadow-card: var(--shadow);
 
-  --font-cairo: var(--font-cairo), sans-serif;
+  --font-cairo: "Cairo", "Segoe UI", sans-serif;
+  --font-amiri: "Amiri", serif;
+  --font-gulzar: "Gulzar", serif;
+  --font-rakkas: "Rakkas", serif;
+  --font-jomhuria: "Jomhuria", serif;
+  --font-aref: "Aref Ruqaa", serif;
+  --font-amiriQuran: "Amiri Quran", serif;
+}
+
+@font-face {
+  font-family: "Amiri";
+  src: url("/fonts/Amiri-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gulzar";
+  src: url("/fonts/Gulzar-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Rakkas";
+  src: url("/fonts/Rakkas-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Jomhuria";
+  src: url("/fonts/Jomhuria-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Aref Ruqaa";
+  src: url("/fonts/ArefRuqaa-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Amiri Quran";
+  src: url("/fonts/AmiriQuran-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
 :root {
@@ -70,14 +124,23 @@
 
 html {
   direction: rtl;
+  font-family:
+    var(--font-amiriQuran), var(--font-cairo), "Segoe UI", Tahoma, sans-serif;
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   user-select: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   background: var(--bg);
   color: var(--text);
+  font-family:
+    var(--font-amiriQuran), var(--font-cairo), "Segoe UI", Tahoma, sans-serif;
+  line-height: 1.7;
+  letter-spacing: 0;
   -webkit-user-select: none;
   user-select: none;
   touch-action: manipulation;
@@ -91,8 +154,32 @@ button,
 input,
 textarea,
 select {
+  font: inherit;
   -webkit-user-select: none;
   user-select: none;
+}
+
+.font-amiri {
+  font-family: var(--font-amiri);
+}
+.font-amiriQuran {
+  font-family: var(--font-amiriQuran);
+}
+
+.font-gulzar {
+  font-family: var(--font-gulzar);
+}
+
+.font-rakkas {
+  font-family: var(--font-rakkas);
+}
+
+.font-jomhuria {
+  font-family: var(--font-jomhuria);
+}
+
+.font-aref {
+  font-family: var(--font-aref);
 }
 
 .onboarding-shell {

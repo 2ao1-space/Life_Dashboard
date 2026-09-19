@@ -29,7 +29,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cairo.variable}
     >
-      <body className="font-cairo">
+      <body className="font-amiri">
         <Providers>
           <OnboardingGate>
             <AppShell>{children}</AppShell>

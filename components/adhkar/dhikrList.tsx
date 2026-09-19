@@ -59,7 +59,7 @@ export default function DhikrList({ category }: { category: DhikrCategory }) {
       >
         ＋ ذكر جديد
       </button>
-      <div className="overflow-hidden rounded-card-lg border border-app-border bg-app-surface px-4 shadow-card">
+      <div className="overflow-hidden rounded-card-lg border border-app-border bg-gray-200 px-4 shadow-card">
         {sorted.map((d) => {
           const isDone = d.current_count >= d.target_count;
           const remaining = Math.max(d.target_count - d.current_count, 0);
@@ -67,7 +67,7 @@ export default function DhikrList({ category }: { category: DhikrCategory }) {
             <div
               key={d.id}
               onClick={() => incrementCount(d)}
-              className={`flex flex-col cursor-pointer items-start gap-3 border-b border-app-border py-3.5 last:border-none ${
+              className={`flex flex-col  cursor-pointer items-start gap-3 border-b border-app-border py-3.5 last:border-none ${
                 isDone ? "opacity-50" : ""
               }`}
             >
@@ -76,7 +76,7 @@ export default function DhikrList({ category }: { category: DhikrCategory }) {
                   {d.text}
                 </p>
               </div>
-              <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center justify-between gap-2 w-full">
                 <div
                   className={`mt-0.5 flex h-8 min-w-8 shrink-0 items-center justify-center rounded-card-sm px-1 text-[11px] font-bold ${
                     isDone
