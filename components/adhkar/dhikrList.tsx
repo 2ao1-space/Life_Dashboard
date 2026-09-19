@@ -55,7 +55,7 @@ export default function DhikrList({ category }: { category: DhikrCategory }) {
       <button
         type="button"
         onClick={openAdd}
-        className="mt-2.5 w-full rounded-card-md bg-app-primary-soft py-3 text-[13.5px] font-bold text-app-primary-soft-text"
+        className="mb-2.5 w-full rounded-card-md bg-app-primary-soft py-3 text-[13.5px] font-bold text-app-primary-soft-text"
       >
         ＋ ذكر جديد
       </button>

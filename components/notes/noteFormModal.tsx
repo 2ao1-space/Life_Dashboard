@@ -239,7 +239,7 @@ export default function NoteFormModal({
           <label className="mb-1.5 block text-xs font-semibold text-app-text-2">
             المهام
           </label>
-          <div className="mt-2 flex gap-2">
+          <div className="mb-2 flex gap-2">
             <input
               value={newTodoText}
               onChange={(e) => setNewTodoText(e.target.value)}
