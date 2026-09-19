@@ -125,7 +125,6 @@ export default function CalendarStrip({
                     : "text-app-text-2/35"
               }`}
             >
-              <span>{WEEKDAY_LABELS[d.getDay()]}</span>
               <span
                 className={
                   isToday && !isSelected
