@@ -67,33 +67,31 @@ export default function DhikrList({ category }: { category: DhikrCategory }) {
             <div
               key={d.id}
               onClick={() => incrementCount(d)}
-              className={`flex cursor-pointer items-start gap-3 border-b border-app-border py-3.5 last:border-none ${
+              className={`flex flex-col cursor-pointer items-start gap-3 border-b border-app-border py-3.5 last:border-none ${
                 isDone ? "opacity-50" : ""
               }`}
             >
-              <div
-                className={`mt-0.5 flex h-8 min-w-8 shrink-0 items-center justify-center rounded-card-sm px-1 text-[11px] font-bold ${
-                  isDone
-                    ? "bg-app-surface-2 text-app-text-2"
-                    : "bg-app-primary-soft text-app-primary-soft-text"
-                }`}
-              >
-                {isDone ? "تم" : remaining}
-              </div>
               <div className="min-w-0 flex-1">
-                <p className="wrap-break-word text-sm font-semibold leading-6 text-app-text">
+                <p className="wrap-break-word text-sm font-semibold leading-6 text-app-text bg-white">
                   {d.text}
                 </p>
-                {!isDone && (
-                  <p className="mt-0.5 text-[11px] text-app-text-2">
-                    متبقي للتكرار
-                  </p>
-                )}
               </div>
-              <EntityActions
-                onEdit={() => openEdit(d)}
-                onDelete={() => setDeletingId(d.id)}
-              />
+              <div className="flex items-center justify-between gap-2">
+                <div
+                  className={`mt-0.5 flex h-8 min-w-8 shrink-0 items-center justify-center rounded-card-sm px-1 text-[11px] font-bold ${
+                    isDone
+                      ? "bg-app-surface-2 text-app-text-2"
+                      : "bg-app-primary-soft text-app-primary-soft-text"
+                  }`}
+                >
+                  {isDone ? "تم" : remaining}
+                </div>
+
+                <EntityActions
+                  onEdit={() => openEdit(d)}
+                  onDelete={() => setDeletingId(d.id)}
+                />
+              </div>
             </div>
           );
         })}

@@ -70,29 +70,31 @@ export default function DuasSection() {
           duas.map((d) => (
             <div
               key={d.id}
-              className="flex items-start gap-3 border-b border-app-border py-3 last:border-none"
+              className="flex flex-col items-start gap-3 border-b border-app-border py-3 last:border-none"
             >
               <span
                 className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full"
                 style={{ backgroundColor: d.category_color }}
               />
               <div className="min-w-0 flex-1">
+                <p className="text-[11px] text-app-text-2">{d.category_name}</p>
                 <p className="break-words text-[13.5px] font-semibold text-app-text">
                   {d.text}
                 </p>
-                <p className="text-[11px] text-app-text-2">{d.category_name}</p>
               </div>
-              <button
-                type="button"
-                onClick={() => togglePin(d)}
-                className={`shrink-0 text-sm ${d.is_pinned ? "text-app-gold" : "text-app-text-2"}`}
-              >
-                <AppIcon name="pin" size={16} />
-              </button>
-              <EntityActions
-                onEdit={() => openEdit(d)}
-                onDelete={() => setDeletingId(d.id)}
-              />
+              <div className="flex items-center justify-between gap-2">
+                <button
+                  type="button"
+                  onClick={() => togglePin(d)}
+                  className={`shrink-0 text-sm ${d.is_pinned ? "text-app-gold" : "text-app-text-2"}`}
+                >
+                  <AppIcon name="pin" size={16} />
+                </button>
+                <EntityActions
+                  onEdit={() => openEdit(d)}
+                  onDelete={() => setDeletingId(d.id)}
+                />
+              </div>
             </div>
           ))
         )}
