@@ -239,6 +239,23 @@ export default function NoteFormModal({
           <label className="mb-1.5 block text-xs font-semibold text-app-text-2">
             المهام
           </label>
+          <div className="mt-2 flex gap-2">
+            <input
+              value={newTodoText}
+              onChange={(e) => setNewTodoText(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && addTodoItem()}
+              placeholder="مهمة جديدة..."
+              dir="rtl"
+              className="min-w-0 flex-1 rounded-card-sm border border-app-border bg-app-bg px-3 py-2 text-sm text-app-text outline-none focus:border-app-primary"
+            />
+            <button
+              type="button"
+              onClick={addTodoItem}
+              className="rounded-card-sm bg-app-primary-soft px-3 text-app-primary-soft-text"
+            >
+              ＋
+            </button>
+          </div>
           {todoItems.map((item) => (
             <div key={item.id} className="mb-1.5 flex items-center gap-2">
               <button
@@ -274,23 +291,6 @@ export default function NoteFormModal({
               </button>
             </div>
           ))}
-          <div className="mt-2 flex gap-2">
-            <input
-              value={newTodoText}
-              onChange={(e) => setNewTodoText(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && addTodoItem()}
-              placeholder="مهمة جديدة..."
-              dir="rtl"
-              className="min-w-0 flex-1 rounded-card-sm border border-app-border bg-app-bg px-3 py-2 text-sm text-app-text outline-none focus:border-app-primary"
-            />
-            <button
-              type="button"
-              onClick={addTodoItem}
-              className="rounded-card-sm bg-app-primary-soft px-3 text-app-primary-soft-text"
-            >
-              ＋
-            </button>
-          </div>
         </div>
       )}
 
